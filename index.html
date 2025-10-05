@@ -1,403 +1,526 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Welcome Vikas Kushwaha</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0f1724; /* dark navy */
-      --card:#0b1220;
-      --accent1:#7c3aed; /* violet */
-      --accent2:#06b6d4; /* teal */
-      --glass: rgba(255,255,255,0.04);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent),
-                  radial-gradient(800px 500px at 90% 90%, rgba(6,182,212,0.08), transparent),
-                  var(--bg); 
-      color:#E6EEF6; 
-      -webkit-font-smoothing:antialiased;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container{
-      max-width: 1000px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:24px; 
-      padding:40px; 
-      display:flex; 
-      flex-direction: column;
-      align-items:center; 
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-      max-width: 700px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent1), var(--accent2), transparent);
-    }
-
-    .avatar{
-      width:140px;
-      height:140px;
-      border-radius:50%;
-      position:relative;
-      overflow:hidden;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2)); 
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      font-weight:800;
-      font-size:36px;
-      letter-spacing:0.6px;
-      margin-bottom: 24px;
-      border: 3px solid rgba(255,255,255,0.1);
-    }
-
-    .info{
-      width: 100%;
-    }
-
-    h1{
-      margin:0 0 12px;
-      font-size:36px;
-      line-height:1.02;
-      font-weight: 700;
-    }
-
-    .subtitle{
-      color:rgba(230,238,246,0.7);
-      margin-bottom:28px;
-      font-size: 18px;
-      line-height: 1.5;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 16px;
-      border-radius:999px;
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,0.03);
-      font-weight:600;
-      margin-bottom: 24px;
-      font-size: 14px;
-    }
-
-    .meta{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:28px;
-      justify-content: center;
-    }
-
-    .meta .item{
-      background:rgba(255,255,255,0.02);
-      padding:12px 16px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.03);
-      font-size:14px;
-      transition: all 0.3s ease;
-    }
-
-    .meta .item:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(124,58,237,0.2);
-    }
-
-    .actions{
-      margin-top:32px;
-      display:flex;
-      gap:16px;
-      justify-content: center;
-    }
-
-    .btn{
-      padding:14px 24px;
-      border-radius:12px;
-      border:0;
-      cursor:pointer;
-      font-weight:700;
-      transition: all 0.3s ease;
-      font-size: 15px;
-    }
-
-    .btn-primary{
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:white;
-      box-shadow:0 6px 18px rgba(6,182,212,0.08);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow:0 10px 25px rgba(6,182,212,0.15);
-    }
-
-    .btn-ghost{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      color:rgba(230,238,246,0.95);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255,255,255,0.05);
-      transform: translateY(-2px);
-    }
-
-    /* right column */
-    .right{
-      width:100%;
-      max-width: 700px;
-      margin-top: 32px;
-    }
-
-    .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:18px;
-      padding:28px;
-      border:1px solid rgba(255,255,255,0.03);
-      text-align: center;
-    }
-
-    .quote{
-      font-size:16px;
-      color:rgba(230,238,246,0.8);
-      line-height:1.5;
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-
-    /* typing */
-    .typed{
-      display:inline-block;
-      color:transparent;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      font-weight:800;
-    }
-
-    /* confetti canvas */
-    #confetti{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:60;
-    }
-
-    /* responsive */
-    @media (max-width:768px){
-      .card{padding: 28px 20px;}
-      .avatar{width:120px;height:120px;font-size:32px;}
-      h1{font-size:28px;}
-      .subtitle{font-size:16px;}
-      .actions{flex-direction:column;align-items:center;}
-      .btn{width:100%;max-width:250px;}
-      .meta{flex-direction:column;align-items:center;}
-      .meta .item{width:100%;max-width:250px;}
-    }
-
-    /* subtle floating */
-    .floating{animation:floatY 6s ease-in-out infinite}
-    @keyframes floatY{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-
-    /* sparkle */
-    .sparkle{
-      position:absolute;
-      right:8px;
-      top:8px;
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      background:linear-gradient(90deg,#fff8, #fff0);
-      filter:blur(6px);
-      opacity:0.9;
-    }
-
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      color: rgba(230,238,246,0.6);
-      font-size: 14px;
-      max-width: 700px;
-    }
-
-    .footer p {
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    .accent-dots {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .accent-dot {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      opacity: 0.1;
-      filter: blur(20px);
-    }
-
-    .dot-1 {
-      width: 200px;
-      height: 200px;
-      top: -100px;
-      left: -100px;
-    }
-
-    .dot-2 {
-      width: 150px;
-      height: 150px;
-      bottom: -75px;
-      right: -75px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vikas | Design Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --dark: #2A2D3E;
+            --light: #F7F9FC;
+            --gray: #8C8E9A;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(247, 249, 252, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid var(--primary);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+        }
+        
+        /* Skills Section */
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .skill-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Projects Section */
+        .projects-slider {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+        
+        .project-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .project-slide.active {
+            opacity: 1;
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 15px;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .project-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--primary);
+        }
+        
+        /* Contact Section */
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0 30px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 20px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="confetti"></canvas>
-  <div class="container">
-    <div class="card floating">
-      <div class="accent-dots">
-        <div class="accent-dot dot-1"></div>
-        <div class="accent-dot dot-2"></div>
-      </div>
-      
-      <div class="avatar" aria-hidden="true">
-        VK
-        <div class="sparkle" style="mix-blend-mode:overlay"></div>
-      </div>
-      
-      <div class="info">
-        <div class="badge">Welcome, Vikas Kushwaha</div>
-
-        <h1>Hi Vikas — <span class="typed" id="typed"></span></h1>
-        <p class="subtitle">A clean, modern welcome page crafted just for you. Fast, responsive and built to impress.</p>
-
-        <div class="meta" role="list">
-          <div class="item" role="listitem">Design: Minimal & Bold</div>
-          <div class="item" role="listitem">Performance: Lightweight</div>
-          <div class="item" role="listitem">Responsive: Mobile-first</div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Vikas<span>.</span></div>
+                <button class="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
+    </header>
 
-        <div class="actions">
-          <button class="btn btn-primary" id="celebrateBtn">Celebrate 🎉</button>
-          <a class="btn btn-ghost" href="#download" id="downloadLink">Download HTML</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Vikas" class="profile-img">
+            <h1 class="animate">Vikas Design Professional</h1>
+            <p class="animate delay-1">Crafting beautiful digital experiences with a focus on user-centered design and modern aesthetics.</p>
+            <a href="#contact" class="btn animate delay-2">Get In Touch</a>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <div class="right">
-      <div class="panel">
-        <p class="quote">"Welcome pages set the tone. This one was tuned to be warm, confident and striking — just like you."</p>
-        <div style="display:flex;gap:16px;align-items:center;justify-content:center;margin-top:12px">
-          <div>
-            <div style="font-size:14px;color:rgba(230,238,246,0.7)">Developer</div>
-            <div style="font-weight:700">Crazy Devil Development</div>
-          </div>
-          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">CD</div>
+    <!-- Skills Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card animate">
+                    <div class="skill-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>Creating intuitive and beautiful user interfaces</p>
+                </div>
+                <div class="skill-card animate delay-1">
+                    <div class="skill-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Frontend Development</h3>
+                    <p>Building responsive and interactive websites</p>
+                </div>
+                <div class="skill-card animate delay-2">
+                    <div class="skill-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Design</h3>
+                    <p>Designing for mobile-first experiences</p>
+                </div>
+                <div class="skill-card animate delay-3">
+                    <div class="skill-icon">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <h3>Branding</h3>
+                    <p>Developing cohesive brand identities</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    
-    <div class="footer">
-      <p>This page is a single HTML file — click <strong>Download HTML</strong> to save it, or press <strong>Celebrate 🎉</strong> to trigger a small confetti animation.</p>
-    </div>
-  </div>
+    </section>
 
-  <script>
-    // Typing effect
-    const phrases = ["You're amazing.", "Welcome aboard.", "Glad you're here, Vikas!", "Let's build something great."];
-    const typedEl = document.getElementById('typed');
-    let pi = 0, ci = 0;
-    function typeLoop(){
-      const str = phrases[pi];
-      if(ci <= str.length){
-        typedEl.textContent = str.slice(0,ci);
-        ci++;
-        setTimeout(typeLoop, 80 + Math.random()*60);
-      } else {
-        setTimeout(()=>{
-          // erase
-          const erase = function(){
-            if(ci>=0){ typedEl.textContent = str.slice(0,ci); ci--; setTimeout(erase, 30);
-            } else { pi = (pi+1) % phrases.length; ci = 0; setTimeout(typeLoop, 400); }
-          };
-          erase();
-        }, 1200);
-      }
-    }
-    typeLoop();
+    <!-- Projects Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-slider">
+                <div class="project-slide active">
+                    <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80" alt="Project 1" class="project-img">
+                    <div class="project-info">
+                        <h3>E-Commerce Redesign</h3>
+                        <p>Complete UI/UX overhaul for a fashion retail platform</p>
+                    </div>
+                </div>
+                <div class="project-slide">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="Project 2" class="project-img">
+                    <div class="project-info">
+                        <h3>Finance Dashboard</h3>
+                        <p>Data visualization and user experience for financial app</p>
+                    </div>
+                </div>
+                <div class="project-slide">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Project 3" class="project-img">
+                    <div class="project-info">
+                        <h3>Travel Mobile App</h3>
+                        <p>End-to-end design for a travel planning application</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active" data-slide="0"></div>
+                <div class="slider-dot" data-slide="1"></div>
+                <div class="slider-dot" data-slide="2"></div>
+            </div>
+        </div>
+    </section>
 
-    // Simple confetti - lightweight
-    const confettiCanvas = document.getElementById('confetti');
-    const ctx = confettiCanvas.getContext('2d');
-    function resizeCanvas(){ confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; }
-    addEventListener('resize', resizeCanvas); resizeCanvas();
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-    function random(min,max){ return Math.random()*(max-min)+min }
-    function makeConfetti(x,y){
-      const colors = ['#7c3aed','#06b6d4','#f59e0b','#ef4444','#10b981'];
-      const pieces = [];
-      for(let i=0;i<80;i++){ pieces.push({x,y,vx:random(-8,8),vy:random(-12,2),r:random(6,12),color:colors[Math.floor(Math.random()*colors.length)],rot:random(0,360),vr:random(-8,8)}) }
-      let t=0;
-      function frame(){
-        ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-        t+=1;
-        for(const p of pieces){ p.x += p.vx; p.y += p.vy; p.vy += 0.5; p.rot += p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180); ctx.fillStyle=p.color; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6); ctx.restore(); }
-        if(t<150) requestAnimationFrame(frame); else ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
-      }
-      frame();
-    }
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="logo">Vikas<span>.</span></div>
+            <p>Designing experiences that make a difference</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-behance"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="copyright">© 2023 Vikas. All rights reserved.</p>
+        </div>
+    </footer>
 
-    document.getElementById('celebrateBtn').addEventListener('click', function(e){ makeConfetti(innerWidth/2, innerHeight/4); });
-
-    // Download: create a blob of the page HTML and offer download
-    document.getElementById('downloadLink').addEventListener('click', function(e){
-      e.preventDefault();
-      const full = '<!doctype html>\n' + document.documentElement.outerHTML.replace(/\u200B/g,'');
-      const blob = new Blob([full], {type: 'text/html'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'welcome-vikas-kushwaha.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-  </script>
+    <script>
+        // Project Slider
+        const slides = document.querySelectorAll('.project-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto slide
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+        
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! Vikas will get back to you soon.');
+            this.reset();
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.skill-card, .section-title').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
