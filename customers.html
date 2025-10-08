@@ -1,12 +1,12 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EMI Dealer — Customers (Pro)</title>
+  <title>EMI Dealer — Customer List (SweetAlert2)</title>
+
+  <!-- Replace with your firebase config -->
   <script type="module">
-    // ----- REPLACE WITH YOUR FIREBASE CONFIG -----
     window.firebaseConfig = {
       apiKey: "AIzaSyDxpLuWeigl_jOw-6lB4_0Zqdr_X5mEc3I",
     authDomain: "kspecialtool.firebaseapp.com",
@@ -18,97 +18,60 @@
     measurementId: "G-B8E7Z6L19S"
     };
   </script>
+
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
   <style>
-    /* ---------------- Theme & Reset ---------------- */
     :root{
-      --bg:#08103a; /* deep navy */
-      --panel:#0f1a4a; /* darker panel */
-      --primary:#1A237E; /* requested */
+      --bg:#08103a;
+      --panel:#0f1a4a;
+      --primary:#1A237E;
       --accent:#536dfe;
-      --muted:#bfc8ff;
+      --muted:#cfd9ff;
       --glass: rgba(255,255,255,0.03);
       --success:#00e676;
       --danger:#ff5252;
-      --card-shadow: 0 8px 30px rgba(10,12,30,0.6);
-      --radius:14px;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --radius:12px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#051033);color:#e8eeff}
-    a{color:inherit}.container{max-width:1200px;margin:28px auto;padding:20px}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;background:linear-gradient(180deg,var(--bg),#051033);color:#eaf0ff;min-height:100vh;padding:26px}
+    .container{max-width:1200px;margin:0 auto}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:62px;height:62px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#3f51b5);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 10px 30px rgba(2,6,23,0.5)}
+    .brand-text .title{font-size:18px;font-weight:700}
+    .brand-text .subtitle{font-size:13px;color:var(--muted)}
 
-/* ---------------- Header ---------------- */
-.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
-.brand{display:flex;gap:12px;align-items:center}
-.logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--primary),#3f51b5);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 6px 18px rgba(10,12,40,0.6)}
-.brand-text{line-height:1}
-.brand-text .title{font-size:18px;font-weight:700}
-.brand-text .subtitle{font-size:13px;color:var(--muted)}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .search{padding:10px 14px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);min-width:220px;color:inherit}
+    .select{padding:10px 12px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.05);color:inherit}
+    .btn{padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#071022;font-weight:700;cursor:pointer}
 
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.search{padding:10px 14px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);min-width:220px;color:inherit}
-.select{padding:10px 12px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.05)}
-.btn{padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#071022;font-weight:700;cursor:pointer}
+    .meta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
 
-/* ---------------- Grid ---------------- */
-.meta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.7)}
+    .card-head{display:flex;align-items:center;gap:12px}
+    .avatar{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--primary),#2b3be6);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .name{font-weight:700;font-size:15px}
+    .device{color:var(--muted);font-size:13px}
+    .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+    .small{font-size:13px;color:var(--muted)}
+    .status-pill{padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px}
+    .status-locked{background:rgba(255,82,82,0.12);color:var(--danger);border:1px solid rgba(255,82,82,0.16)}
+    .status-unlocked{background:rgba(0,230,118,0.07);color:var(--success);border:1px solid rgba(0,230,118,0.12)}
 
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
-.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(10,12,40,0.7)}
+    footer{margin-top:22px;color:var(--muted);font-size:13px}
 
-.card-head{display:flex;align-items:center;gap:12px}
-.avatar{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--primary),#2b3be6);display:flex;align-items:center;justify-content:center;font-weight:700}
-.name{font-weight:700;font-size:15px}
-.device{color:var(--muted);font-size:13px}
-
-.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
-.small{font-size:13px;color:var(--muted)}
-
-.status-pill{padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px}
-.status-locked{background:rgba(255,82,82,0.12);color:var(--danger);border:1px solid rgba(255,82,82,0.16)}
-.status-unlocked{background:rgba(0,230,118,0.07);color:var(--success);border:1px solid rgba(0,230,118,0.12)}
-
-/* ---------------- Detail Modal ---------------- */
-.modal-backdrop{position:fixed;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.6),rgba(2,6,23,0.85));display:none;align-items:center;justify-content:center;z-index:200}
-.modal{width:860px;max-width:95%;background:linear-gradient(180deg,var(--panel),#091238);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 40px 100px rgba(2,6,23,0.8);transform:translateY(20px);opacity:0;transition:all .22s ease}
-.modal.show{transform:translateY(0);opacity:1}
-.modal-grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
-
-.side-card{background:linear-gradient(180deg,var(--primary),#2b3be6);padding:18px;border-radius:12px}
-.side-card .big{font-size:14px;font-weight:800}
-.side-card .muted{color:var(--muted);font-size:13px;margin-top:6px}
-
-.details{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.01)}
-.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
-.row:last-child{border-bottom:none}
-.label{color:var(--muted);font-size:13px}
-.value{font-weight:700}
-
-.pin-actions{display:flex;gap:8px;align-items:center}
-.link{background:transparent;border:none;color:var(--accent);cursor:pointer;font-weight:700}
-
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
-.action-btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-.action-lock{background:var(--danger);color:#fff}
-.action-unlock{background:var(--success);color:#021022}
-.action-close{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-
-/* subtle entrance */
-.fadeIn{animation:fadeUp .22s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-/* export / footer */
-.tools{display:flex;gap:8px;align-items:center;margin-bottom:10px}
-.csv-note{color:var(--muted);font-size:13px}
-
-footer{margin-top:20px;color:var(--muted);font-size:13px}
-
-/* responsive tweaks */
-@media (max-width:980px){.modal{padding:14px}.modal-grid{grid-template-columns:1fr}.side-card{display:flex;gap:12px;align-items:center}}
-
+    /* small helper for inline buttons inside sweetalert content */
+    .sw-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    .label{color:var(--muted);font-size:13px}
+    .val{font-weight:700}
+    .link-like{background:transparent;border:none;color:var(--accent);cursor:pointer;font-weight:700;padding:0}
   </style>
 </head>
 <body>
@@ -117,259 +80,291 @@ footer{margin-top:20px;color:var(--muted);font-size:13px}
       <div class="brand">
         <div class="logo">ED</div>
         <div class="brand-text">
-          <div class="title">EMI Dealer — Customers (Pro)</div>
-          <div class="subtitle">Realtime Firebase viewer • Lock/Unlock controls • Detailed popup</div>
+          <div class="title">EMI Dealer — Customer List</div>
+          <div class="subtitle">Realtime Firebase viewer • Click card for details • Lock/Unlock (SweetAlert2)</div>
         </div>
-      </div><div>
-    <div class="controls">
-      <input id="search" class="search" placeholder="Search name, number or device..." />
-      <select id="filterStatus" class="select">
-        <option value="all">All status</option>
-        <option value="Verified">Verified</option>
-        <option value="Pending">Pending</option>
-      </select>
-      <select id="filterLock" class="select">
-        <option value="all">All lock status</option>
-        <option value="unlocked">Unlocked</option>
-        <option value="locked">Locked</option>
-      </select>
-      <button id="exportCsv" class="btn">Export CSV</button>
-    </div>
-  </div>
-</div>
-
-<div class="meta-row"><div id="count">0 customers</div><div class="csv-note">Pins masked for privacy — reveal only as needed.</div></div>
-
-<div id="grid" class="grid"></div>
-
-<footer>Replace firebaseConfig with your project's config. Secure database rules before public use.</footer>
-
-  </div>  <!-- Modal -->  <div id="modalBackdrop" class="modal-backdrop">
-    <div id="modal" class="modal fadeIn" role="dialog" aria-modal="true">
-      <div class="modal-grid">
-        <div class="side-card">
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div class="big" id="mName">Customer Name</div>
-            <div class="muted" id="mDevice">Device Model</div>
-            <div class="muted" id="mDealer">Dealer: -</div>
-            <div style="margin-top:6px" id="mStatusWrap"></div>
-          </div>
-        </div><div>
-      <div class="details" id="detailsWrap">
-        <!-- rows injected here -->
       </div>
 
-      <div class="modal-actions">
-        <button id="btnClose" class="action-btn action-close">Close</button>
-        <button id="btnLock" class="action-btn action-lock">Lock</button>
-        <button id="btnUnlock" class="action-btn action-unlock">Unlock</button>
+      <div class="controls">
+        <input id="search" class="search" placeholder="Search name, number or device..." />
+        <select id="filterLock" class="select">
+          <option value="all">All lock status</option>
+          <option value="unlocked">Unlocked</option>
+          <option value="locked">Locked</option>
+        </select>
+        <button id="exportCsv" class="btn">Export CSV</button>
       </div>
     </div>
-  </div>
-</div>
 
-  </div>  <script type="module">
+    <div class="meta-row"><div id="count">0 customers</div><div style="color:var(--muted)">Pins are masked — reveal only as needed</div></div>
+
+    <div id="list" class="grid"></div>
+
+    <footer>Replace firebaseConfig with your project's config. Secure DB rules before public use.</footer>
+  </div>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+  <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
     import { getDatabase, ref, onValue, update } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js';
 
+    // init firebase
     const app = initializeApp(window.firebaseConfig);
     const db = getDatabase(app);
-    const rootRef = ref(db,'EMI_All_Users');
+    const rootRef = ref(db, 'EMI_All_Users');
 
-    const grid = document.getElementById('grid');
-    const countEl = document.getElementById('count');
+    // ui refs
+    const listEl = document.getElementById('list');
     const searchEl = document.getElementById('search');
-    const filterStatus = document.getElementById('filterStatus');
     const filterLock = document.getElementById('filterLock');
     const exportCsv = document.getElementById('exportCsv');
+    const countEl = document.getElementById('count');
 
-    // modal elems
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modal = document.getElementById('modal');
-    const mName = document.getElementById('mName');
-    const mDevice = document.getElementById('mDevice');
-    const mDealer = document.getElementById('mDealer');
-    const mStatusWrap = document.getElementById('mStatusWrap');
-    const detailsWrap = document.getElementById('detailsWrap');
-    const btnClose = document.getElementById('btnClose');
-    const btnLock = document.getElementById('btnLock');
-    const btnUnlock = document.getElementById('btnUnlock');
+    let rawData = {};
 
-    let raw = {};
-    let activeUid = null;
+    // utilities
+    function esc(s){ return String(s||'').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":\"&#39;\"})[c]); }
+    function mask(v, keep=3){ if(!v) return '—'; v = String(v); if(v.length <= keep) return v; return v.slice(0,keep) + '•'.repeat(Math.max(0, v.length - keep)); }
 
-    // utils
-    function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
-    function mask(v, keep=3){ if(!v) return '—'; v=String(v); if(v.length<=keep) return v; return v.slice(0,keep)+ '•'.repeat(Math.max(0,v.length-keep)); }
-
-    function buildCard(uid,u){
-      const div = document.createElement('div'); div.className='card';
-      const initial = (u.name||'–').split(' ').map(x=>x[0]||'').slice(0,2).join('').toUpperCase();
+    // builder
+    function buildCard(uid, u) {
+      const div = document.createElement('div');
+      div.className = 'card';
+      const initials = (u.name || '–').split(' ').map(x => x[0]||'').slice(0,2).join('').toUpperCase();
       div.innerHTML = `
         <div class="card-head">
-          <div class="avatar">${esc(initial)}</div>
+          <div class="avatar">${esc(initials)}</div>
           <div>
-            <div class="name">${esc(u.name||'—')}</div>
-            <div class="device">${esc(u.device||'—')}</div>
+            <div class="name">${esc(u.name || '—')}</div>
+            <div class="device">${esc(u.device || '—')}</div>
           </div>
         </div>
         <div class="card-foot">
-          <div class="small">IMEI: ${esc(u.IMEI1||'—')}</div>
-          <div><span class="status-pill ${u.lock_status==='locked'?'status-locked':'status-unlocked'}">${esc(u.lock_status||'—')}</span></div>
+          <div class="small">IMEI: ${esc(u.IMEI1 || '—')}</div>
+          <div><span class="status-pill ${u.lock_status === 'locked' ? 'status-locked' : 'status-unlocked'}">${esc(u.lock_status || '—')}</span></div>
         </div>
       `;
-
-      // click opens details modal
-      div.addEventListener('click',()=>openModal(uid));
+      // click shows SweetAlert2 detail popup
+      div.addEventListener('click', () => openDetailPopup(uid));
       return div;
     }
 
-    function renderList(data){
-      raw = data||{};
-      const keys = Object.keys(raw);
+    // main render
+    function renderList(data) {
+      rawData = data || {};
+      const keys = Object.keys(rawData);
       countEl.textContent = `${keys.length} customers`;
 
-      const q = searchEl.value.trim().toLowerCase();
-      const sFilter = filterStatus.value;
-      const lFilter = filterLock.value;
+      const q = (searchEl.value || '').trim().toLowerCase();
+      const lfilter = filterLock.value;
 
-      grid.innerHTML='';
-      keys.forEach(uid=>{
-        const u = raw[uid]; if(!u) return;
-        if(sFilter!=='all' && (u.status||'').toLowerCase() !== sFilter.toLowerCase()) return;
-        if(lFilter!=='all' && (u.lock_status||'').toLowerCase() !== lFilter.toLowerCase()) return;
-        const hay = [u.name,u.number,u.device,u.uid,u.email].map(x=>String(x||'').toLowerCase()).join(' ');
+      listEl.innerHTML = '';
+      keys.forEach(uid => {
+        const u = rawData[uid];
+        if(!u) return;
+        if(lfilter !== 'all' && (String(u.lock_status || '').toLowerCase() !== lfilter.toLowerCase())) return;
+        const hay = [u.name,u.number,u.device,u.uid,u.email].map(x => String(x||'').toLowerCase()).join(' ');
         if(q && !hay.includes(q)) return;
-        grid.appendChild(buildCard(uid,u));
+        listEl.appendChild(buildCard(uid, u));
       });
-      if(!grid.children.length){ grid.innerHTML = `<div style="grid-column:1/-1" class="card"><div style="font-weight:700">No customers found</div><div class="small" style="margin-top:8px">Try adjusting search or filters</div></div>`; }
+
+      if(!listEl.children.length) {
+        listEl.innerHTML = `<div style="grid-column:1/-1" class="card"><div style="font-weight:700">No customers found</div><div style="color:var(--muted);margin-top:8px">Try searching or remove filters</div></div>`;
+      }
     }
 
-    // modal detail builder
-    function openModal(uid){
-      const u = raw[uid]; if(!u) return;
-      activeUid = uid;
-      mName.textContent = u.name||'—';
-      mDevice.textContent = u.device||'—';
-      mDealer.textContent = 'Dealer: ' + (u.dealer_code||'—');
+    // open detail using SweetAlert2
+    function openDetailPopup(uid) {
+      const u = rawData[uid];
+      if(!u) return;
 
-      mStatusWrap.innerHTML = `<div style="margin-top:8px"><span class="status-pill ${u.lock_status==='locked'?'status-locked':'status-unlocked'}">${esc(u.lock_status||'—')}</span></div>`;
+      // prepare HTML content (escape)
+      const html = `
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <div style="min-width:220px;max-width:260px;background:linear-gradient(180deg,var(--primary),#2b3be6);padding:14px;border-radius:10px;color:#fff">
+            <div style="font-weight:800;font-size:16px">${esc(u.name||'—')}</div>
+            <div style="color:var(--muted);margin-top:6px">${esc(u.device||'—')}</div>
+            <div style="margin-top:10px;color:var(--muted)">Dealer: ${esc(u.dealer_code||'—')}</div>
+            <div style="margin-top:10px"><span class="${u.lock_status==='locked'?'status-locked':'status-unlocked'}" style="padding:6px 10px;border-radius:999px;font-weight:700">${esc(u.lock_status||'—')}</span></div>
+          </div>
 
-      // details rows
-      const rows = [
-        ['UID', u.uid],
-        ['Name', u.name],
-        ['Number', u.number],
-        ['Email', u.email],
-        ['Dealer Code', u.dealer_code],
-        ['Device Model', u.device],
-        ['Device ID', u.device_id],
-        ['IMEI 1', u.IMEI1],
-        ['IMEI 2', u.IMEI2],
-        ['Status', u.status],
-        ['Lock Status', u.lock_status]
-      ];
-
-      detailsWrap.innerHTML = '';
-      rows.forEach(([k,v])=>{
-        const r = document.createElement('div'); r.className='row';
-        r.innerHTML = `<div class="label">${esc(k)}</div><div class="value">${esc(v||'—')}</div>`;
-        detailsWrap.appendChild(r);
-      });
-
-      // unlock pin with reveal and copy
-      const pinRow = document.createElement('div'); pinRow.className='row';
-      pinRow.innerHTML = `
-        <div class="label">Unlock PIN</div>
-        <div class="value">
-          <span id="pinVal">${esc(mask(u.unlock_pin||''))}</span>
-          <div class="pin-actions" style="display:inline-flex;margin-left:10px">
-            <button id="revealPin" class="link">Show</button>
-            <button id="copyPin" class="link">Copy</button>
+          <div style="flex:1;min-width:280px">
+            <div class="sw-row"><div class="label">UID</div><div class="val">${esc(u.uid||'—')}</div></div>
+            <div class="sw-row"><div class="label">Number</div><div class="val">${esc(u.number||'—')}</div></div>
+            <div class="sw-row"><div class="label">Email</div><div class="val">${esc(u.email||'—')}</div></div>
+            <div class="sw-row"><div class="label">Device ID</div><div class="val">${esc(u.device_id||'—')}</div></div>
+            <div class="sw-row"><div class="label">IMEI 1</div><div class="val">${esc(u.IMEI1||'—')}</div></div>
+            <div class="sw-row"><div class="label">IMEI 2</div><div class="val">${esc(u.IMEI2||'—')}</div></div>
+            <div class="sw-row"><div class="label">Status</div><div class="val">${esc(u.status||'—')}</div></div>
+            <div class="sw-row" style="border-bottom:none"><div class="label">Unlock PIN</div>
+              <div class="val">
+                <span id="pinVal">${esc(mask(u.unlock_pin||''))}</span>
+                <div style="display:inline-flex;gap:8px;margin-left:8px">
+                  <button id="revealPinBtn" class="link-like">Show</button>
+                  <button id="copyPinBtn" class="link-like">Copy</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `;
-      detailsWrap.appendChild(pinRow);
 
-      // reveal/copy handlers
-      setTimeout(()=>{ // ensure in DOM
-        const reveal = document.getElementById('revealPin');
-        const copy = document.getElementById('copyPin');
-        const pinVal = document.getElementById('pinVal');
-        reveal.onclick = ()=>{
-          if(reveal.textContent==='Show'){
-            pinVal.textContent = u.unlock_pin || '—';
-            reveal.textContent = 'Hide';
-          } else {
-            pinVal.textContent = mask(u.unlock_pin||''); reveal.textContent = 'Show';
+      Swal.fire({
+        title: `${u.name || 'Customer'} — Details`,
+        html: html,
+        width: 860,
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          // attach reveal & copy handlers
+          const revealBtn = Swal.getPopup().querySelector('#revealPinBtn');
+          const copyBtn = Swal.getPopup().querySelector('#copyPinBtn');
+          const pinVal = Swal.getPopup().querySelector('#pinVal');
+
+          if(revealBtn){
+            revealBtn.addEventListener('click', () => {
+              if(revealBtn.textContent === 'Show'){
+                pinVal.textContent = esc(u.unlock_pin || '—');
+                revealBtn.textContent = 'Hide';
+              } else {
+                pinVal.textContent = esc(mask(u.unlock_pin||'', 3));
+                revealBtn.textContent = 'Show';
+              }
+            });
           }
-        };
-        copy.onclick = ()=>{
-          navigator.clipboard.writeText(u.unlock_pin||'').then(()=>{
-            copy.textContent='Copied'; setTimeout(()=>copy.textContent='Copy',1000);
-          }).catch(()=>{ copy.textContent='Failed'; setTimeout(()=>copy.textContent='Copy',1000); });
-        };
-      },50);
+          if(copyBtn){
+            copyBtn.addEventListener('click', () => {
+              navigator.clipboard.writeText(u.unlock_pin || '').then(() => {
+                Swal.showToast({icon: 'success', title: 'PIN copied'}); // small helper, fallback below
+                // we also show small toast
+                Swal.fire({toast:true,position:'top-end',timer:900,showConfirmButton:false,title:'PIN copied',icon:'success'});
+              }).catch(()=> {
+                Swal.fire({toast:true,position:'top-end',timer:900,showConfirmButton:false,title:'Copy failed',icon:'error'});
+              });
+            });
+          }
 
-      // toggle action button visibility
-      if(u.lock_status==='locked'){
-        btnLock.style.display='none'; btnUnlock.style.display='inline-block';
-      } else {
-        btnLock.style.display='inline-block'; btnUnlock.style.display='none';
-      }
+          // add custom action buttons below content
+          const popup = Swal.getPopup();
+          // create action area
+          const actionBar = document.createElement('div');
+          actionBar.style.display = 'flex';
+          actionBar.style.justifyContent = 'flex-end';
+          actionBar.style.gap = '10px';
+          actionBar.style.marginTop = '14px';
 
-      // show modal
-      modalBackdrop.style.display='flex'; setTimeout(()=>modal.classList.add('show'),10);
-    }
+          // Close button
+          const closeBtn = document.createElement('button');
+          closeBtn.textContent = 'Close';
+          closeBtn.className = 'swal2-confirm btn';
+          closeBtn.style.background = 'transparent';
+          closeBtn.style.border = '1px solid rgba(255,255,255,0.06)';
+          closeBtn.style.color = 'var(--muted)';
+          closeBtn.style.padding = '10px 14px';
+          closeBtn.style.borderRadius = '10px';
+          closeBtn.addEventListener('click', () => Swal.close());
 
-    btnClose.addEventListener('click', closeModal);
-    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal(); });
+          // Lock / Unlock buttons
+          const lockBtn = document.createElement('button');
+          lockBtn.textContent = 'Lock';
+          lockBtn.className = 'swal2-confirm btn';
+          lockBtn.style.background = 'var(--danger)';
+          lockBtn.style.color = '#fff';
+          lockBtn.style.padding = '10px 14px';
+          lockBtn.style.borderRadius = '10px';
+          lockBtn.addEventListener('click', () => handleLockAction(uid, 'locked'));
 
-    function closeModal(){ modal.classList.remove('show'); setTimeout(()=>modalBackdrop.style.display='none',200); activeUid=null; }
+          const unlockBtn = document.createElement('button');
+          unlockBtn.textContent = 'Unlock';
+          unlockBtn.className = 'swal2-confirm btn';
+          unlockBtn.style.background = 'var(--success)';
+          unlockBtn.style.color = '#021022';
+          unlockBtn.style.padding = '10px 14px';
+          unlockBtn.style.borderRadius = '10px';
+          unlockBtn.addEventListener('click', () => handleLockAction(uid, 'unlocked'));
 
-    // confirm dialog (small inline) before performing lock/unlock
-    function confirmAction(action){
-      const u = raw[activeUid]; if(!u) return Promise.reject('No user');
-      return new Promise((res,rej)=>{
-        const yes = confirm(`Are you sure you want to ${action} device for ${u.name}?`);
-        if(yes) res(); else rej('cancelled');
+          // show only the appropriate action (don't show both active)
+          if(u.lock_status === 'locked'){
+            actionBar.appendChild(closeBtn);
+            actionBar.appendChild(unlockBtn);
+          } else {
+            actionBar.appendChild(closeBtn);
+            actionBar.appendChild(lockBtn);
+          }
+
+          // append actionBar to popup content
+          popup.appendChild(actionBar);
+        }
       });
     }
 
-    btnLock.addEventListener('click', ()=>{
-      if(!activeUid) return;
-      confirmAction('lock').then(()=>{
-        update(ref(db,'EMI_All_Users/'+activeUid),{lock_status:'locked'}).then(()=>{
-          alert('Device locked'); closeModal();
-        }).catch(err=>alert('Error: '+err.message));
-      }).catch(()=>{});
-    });
+    // show confirm then update firebase
+    function handleLockAction(uid, targetStatus){
+      const user = rawData[uid];
+      if(!user) return;
 
-    btnUnlock.addEventListener('click', ()=>{
-      if(!activeUid) return;
-      confirmAction('unlock').then(()=>{
-        update(ref(db,'EMI_All_Users/'+activeUid),{lock_status:'unlocked'}).then(()=>{
-          alert('Device unlocked'); closeModal();
-        }).catch(err=>alert('Error: '+err.message));
-      }).catch(()=>{});
-    });
+      Swal.fire({
+        title: `${targetStatus === 'locked' ? 'Lock' : 'Unlock'} device?`,
+        text: `Are you sure you want to ${targetStatus} the device for ${user.name || 'this customer'}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: targetStatus === 'locked' ? 'Yes, lock' : 'Yes, unlock',
+        customClass: { popup: 'swal2-popup' },
+        reverseButtons: true
+      }).then(result => {
+        if(result.isConfirmed){
+          // perform firebase update
+          update(ref(db, 'EMI_All_Users/' + uid), { lock_status: targetStatus })
+            .then(() => {
+              Swal.fire({icon: 'success', title: `Device ${targetStatus}`, timer: 1200, showConfirmButton: false});
+            })
+            .catch(err => {
+              Swal.fire({icon: 'error', title: 'Update failed', text: err.message || String(err)});
+            });
+        }
+      });
+    }
+
+    // small helper to show toast (SweetAlert2 already)
+    Swal.showToast = function(opts = {}) {
+      Swal.fire(Object.assign({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1100
+      }, opts));
+    };
 
     // CSV export
-    exportCsv.addEventListener('click', ()=>{
+    exportCsv.addEventListener('click', () => {
       const rows = [['uid','name','number','email','dealer_code','device','device_id','imei1','imei2','status','lock_status','unlock_pin']];
-      Object.keys(raw||{}).forEach(uid=>{ const u = raw[uid]; rows.push([uid,u.name||'',u.number||'',u.email||'',u.dealer_code||'',u.device||'',u.device_id||'',u.IMEI1||'',u.IMEI2||'',u.status||'',u.lock_status||'',u.unlock_pin||'']); });
-      const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-      const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href=url; a.download='emi_customers.csv'; a.click(); URL.revokeObjectURL(url);
+      Object.keys(rawData || {}).forEach(uid => {
+        const u = rawData[uid] || {};
+        rows.push([uid, u.name||'', u.number||'', u.email||'', u.dealer_code||'', u.device||'', u.device_id||'', u.IMEI1||'', u.IMEI2||'', u.status||'', u.lock_status||'', u.unlock_pin||'']);
+      });
+      const csv = rows.map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'emi_customers.csv';
+      a.click();
+      URL.revokeObjectURL(url);
     });
 
     // realtime listener
-    onValue(rootRef,(snap)=>{
-      renderList(snap.val()||{});
-    }, (err)=>{ grid.innerHTML=`<div style="grid-column:1/-1" class="card">Failed to read data: ${esc(err.message||err)}</div>`; });
+    onValue(rootRef, snapshot => {
+      const val = snapshot.val() || {};
+      renderList(val);
+    }, err => {
+      listEl.innerHTML = `<div style="grid-column:1/-1" class="card"><div style="font-weight:700">Failed to read data</div><div style="color:var(--muted);margin-top:8px">${esc(err.message||err)}</div></div>`;
+    });
 
-    // filters
-    [searchEl,filterStatus,filterLock].forEach(el=>el.addEventListener('input', ()=>renderList(raw)));
-
-  </script></body>
+    // wire filters
+    [searchEl, filterLock].forEach(el => el.addEventListener('input', () => renderList(rawData)));
+  </script>
+</body>
 </html>
