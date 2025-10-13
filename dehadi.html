@@ -21,7 +21,7 @@ button{padding:8px 14px;border-radius:10px;border:0;font-weight:600;cursor:point
 button:active{transform:translateY(1px);}
 .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;}
 .btn-ghost{background:#2a2a2a;border:1px solid #333;color:var(--text);}
-.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:18px;transition:.2s}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:18px;transition:.2s;display:flex;justify-content:space-between;align-items:center;}
 .card:hover{transform:translateY(-2px)}
 .modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:999}
 .modal{background:var(--card);border-radius:var(--radius);padding:20px;width:350px;max-width:90%;box-shadow:var(--shadow);position:relative;transform:translateY(-20px);opacity:0;transition:all .25s;}
@@ -36,9 +36,6 @@ th{color:var(--muted)}
 .chip.ok{background:rgba(22,163,74,0.2);color:var(--success)}
 .chip.warn{background:rgba(255,165,0,0.2);color:#c97b00}
 .chip.danger{background:rgba(239,68,68,0.2);color:var(--danger)}
-.worker-list{max-height:300px;overflow:auto;margin-top:10px}
-.worker-item{padding:8px;border-bottom:1px solid #333;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:space-between}
-.worker-item:hover{background:rgba(14,165,164,0.1)}
 .worker-actions button{margin-left:5px;padding:4px 8px;font-size:12px;}
 .toast-wrap{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:9999}
 .toast{background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .3s;}
@@ -96,21 +93,15 @@ th{color:var(--muted)}
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-// Keys
-const W_KEY='fk_workers';
-const A_KEY='fk_attendance';
-
-// Utils
+const W_KEY='fk_workers',A_KEY='fk_attendance';
 const $=id=>document.getElementById(id);
 function load(key){return JSON.parse(localStorage.getItem(key)||'[]')}
 function save(key,val){localStorage.setItem(key,JSON.stringify(val))}
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('toasts').appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),320)},2000)}
-
-// Modals
 function showModal(id){$(id).style.display='flex';setTimeout(()=>$(id).querySelector('.modal').classList.add('show'),10)}
 function hideModal(id){$(id).querySelector('.modal').classList.remove('show');setTimeout(()=>$(id).style.display='none',250)}
 
-// Add Worker Modal
+// Worker modal
 $('btnAddWorker').onclick=()=>showModal('modalWorker');
 $('closeWorker').onclick=()=>hideModal('modalWorker');
 $('saveWorker').onclick=()=>{
@@ -122,13 +113,13 @@ $('saveWorker').onclick=()=>{
   $('wName').value='';$('wPhone').value='';$('wRole').value='';hideModal('modalWorker');toast('Worker registered');renderDashboard();
 }
 
-// Render Dashboard
+// Render dashboard
 function renderDashboard(){
   const container=$('workerDashboard');container.innerHTML='';
   const workers=load(W_KEY);
-  if(!workers.length){container.innerHTML='<p>No workers yet.</p>';return;}
+  if(!workers.length){container.innerHTML='<p style="color:var(--muted)">No workers yet.</p>';return;}
   workers.forEach(w=>{
-    const card=document.createElement('div');card.className='card worker-item';
+    const card=document.createElement('div');card.className='card';
     card.innerHTML=`
       <div>
         <strong>${w.name}</strong> ${w.role?'- '+w.role:''}<br>
@@ -150,46 +141,42 @@ function openAttendance(workerId){
   if(!worker){toast('Worker not found');return;}
   showModal('modalAttendance');$('attWorkerName').textContent=worker.name;
   $('attDate').value=new Date().toISOString().slice(0,10);
-  renderAttendance(workerId);
-  $('attForm').onsubmit=e=>{
+  $('attForm').onsubmit=(e)=>{
     e.preventDefault();
     const date=$('attDate').value,start=$('attStart').value,end=$('attEnd').value;
     const arr=load(A_KEY);
     arr.push({id:Date.now(),workerId,date,start,end});
     save(A_KEY,arr);toast('Attendance saved');renderAttendance(workerId);
   }
-  $('attFull').onchange=e=>{
-    if(e.target.checked){$('attStart').value='09:00';$('attEnd').value='21:00'}
-  }
+  $('attFull').onchange=e=>{if(e.target.checked){$('attStart').value='09:00';$('attEnd').value='21:00'}}
+  renderAttendance(workerId);
 }
 
-// Render attendance list
+// Render attendance
 function renderAttendance(workerId){
   const container=$('workerAttendanceList');container.innerHTML='';
   const arr=load(A_KEY).filter(a=>a.workerId===workerId).sort((a,b)=>b.id-a.id);
-  if(!arr.length){container.innerHTML='<p>No attendance yet.</container.innerHTML='<p style="color:var(--muted)">No attendance yet.</p>'; return; }
-  const table = document.createElement('table');
-  table.innerHTML = '<thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hours</th></tr></thead>';
-  const tbody = document.createElement('tbody');
-
+  if(!arr.length){container.innerHTML='<p style="color:var(--muted)">No attendance yet.</p>';return;}
+  const table=document.createElement('table');
+  table.innerHTML='<thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hours</th></tr></thead>';
+  const tbody=document.createElement('tbody');
   arr.forEach(a=>{
-    const startMins = parseInt(a.start.split(':')[0])*60 + parseInt(a.start.split(':')[1]);
-    const endMins = parseInt(a.end.split(':')[0])*60 + parseInt(a.end.split(':')[1]);
-    const mins = Math.max(0, endMins - startMins);
-    const hours = Math.floor(mins/60);
-    const minutes = mins % 60;
-    const hhmm = `${hours}:${minutes.toString().padStart(2,'0')}`;
-    let chipClass = mins >= 12*60 ? 'ok' : (mins >= 6*60 ? 'warn' : 'danger');
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>${a.date}</td><td>${a.start}</td><td>${a.end}</td><td><span class="chip ${chipClass}">${hhmm}</span></td>`;
+    const s=parseInt(a.start.split(':')[0])*60+parseInt(a.start.split(':')[1]);
+    const e=parseInt(a.end.split(':')[0])*60+parseInt(a.end.split(':')[1]);
+    const mins=Math.max(0,e-s);
+    const hours=Math.floor(mins/60);
+    const minutes=mins%60;
+    const hhmm=`${hours}:${minutes.toString().padStart(2,'0')}`;
+    const chipClass=mins>=12*60?'ok':mins>=6*60?'warn':'danger';
+    const row=document.createElement('tr');
+    row.innerHTML=`<td>${a.date}</td><td>${a.start}</td><td>${a.end}</td><td><span class="chip ${chipClass}">${hhmm}</span></td>`;
     tbody.appendChild(row);
   });
-
   table.appendChild(tbody);
   container.appendChild(table);
 }
 
-// Initial render
+// Init
 renderDashboard();
 </script>
 </body>
