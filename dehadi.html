@@ -6,265 +6,234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Furniture Kaam Dehadi — Attendance</title>
   <style>
-    :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#0ea5a4;
-      --accent-2:#0f172a;
-      --success:#16a34a;
-      --danger:#ef4444;
-      --glass: rgba(255,255,255,0.6);
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
+    :root{--bg:#f4f7fb;--card:#ffffff;--muted:#6b7280;--accent:#0ea5a4;--accent-2:#0f172a;--success:#16a34a;--danger:#ef4444;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial}
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#eef7f7 0%,var(--bg)100%);color:var(--accent-2);}
-    .container{max-width:1100px;margin:28px auto;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    body{margin:0;background:linear-gradient(180deg,#eef7f7 0%,var(--bg)100%);color:var(--accent-2)}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
     .brand{display:flex;gap:14px;align-items:center}
-    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px}
     h1{font-size:20px;margin:0}
-    p.lead{margin:0;color:var(--muted);font-size:13px}.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 20px rgba(16,24,40,0.06);}
-.grid{display:grid;grid-template-columns:1fr 420px;gap:18px}
-form .row{display:flex;gap:10px;margin-bottom:10px}
-label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
-input[type=text], input[type=time], input[type=date], select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef2;background:transparent}
-.controls{display:flex;gap:8px;margin-top:8px}
-button{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    p.lead{margin:0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 30px rgba(16,24,40,0.06)}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef2;background:transparent}
+.row{display:flex;gap:10px}
+.row > div{flex:1}
+.controls{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+button{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
 .btn-primary{background:linear-gradient(90deg,var(--accent),#06b6d4);color:#fff}
 .btn-ghost{background:transparent;border:1px solid #e6eef2;color:var(--accent-2)}
 .small{font-size:13px;padding:8px 10px}
 
-.table-wrap{margin-top:12px;overflow:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:10px;text-align:left;border-bottom:1px solid #f1f6f8}
-th{font-size:12px;color:var(--muted);font-weight:600}
-td.actions{display:flex;gap:8px}
+th,td{padding:8px;text-align:left;border-bottom:1px solid #f1f6f8}
+th{font-size:12px;color:var(--muted);font-weight:700}
 .chip{padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
 .chip.ok{background:rgba(22,163,74,0.12);color:var(--success)}
-.chip.warn{background:rgba(255,165,0,0.12);color:#c97b00}
-.chip.danger{background:rgba(239,68,68,0.08);color:var(--danger)}
 
+.meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--muted);font-size:13px}
 .tools{display:flex;gap:8px;align-items:center}
 .search{padding:8px 12px;border-radius:10px;border:1px solid #e6eef2}
-.meta{margin-top:12px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
 
-@media (max-width:900px){.grid{grid-template-columns:1fr;}.brand h1{font-size:18px}}
+@media(max-width:960px){.grid{grid-template-columns:1fr}.controls{justify-content:space-between}}
 
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="wrap">
     <header>
       <div class="brand">
         <div class="logo">FK</div>
         <div>
           <h1>Furniture Kaam Dehadi — Attendance</h1>
-          <p class="lead">Simple, offline-first attendance tracker — local storage, CSV export, print-ready.</p>
+          <p class="lead">Workers ko pehle register karein. Phir wahi select kar ke attendance add karein. (Local-only)</p>
         </div>
       </div>
       <div class="tools">
-        <input id="search" class="search" placeholder="Search name or date..." />
+        <input id="search" class="search" placeholder="Search name / date / role" />
         <button id="exportCsv" class="small btn-ghost">Export CSV</button>
         <button id="printTable" class="small btn-ghost">Print</button>
       </div>
     </header><div class="grid">
+  <!-- Main column: attendance -->
   <div class="card">
-    <form id="attendanceForm">
-      <div class="row">
-        <div style="flex:1">
-          <label>Worker Name</label>
-          <input id="name" type="text" placeholder="Ex: Ram Kumar" required />
-        </div>
-        <div style="width:150px">
-          <label>Role / Note</label>
-          <input id="role" type="text" placeholder="Ex: Carpenter" />
-        </div>
-      </div>
+    <h3 style="margin:0 0 10px 0">Attendance Lagao</h3>
+    <form id="attForm">
+      <label>Worker</label>
+      <select id="workerSelect"><option value="">-- Select worker --</option></select>
 
-      <div class="row">
-        <div style="width:180px">
-          <label>Date</label>
-          <input id="date" type="date" required />
-        </div>
-        <div style="width:140px">
-          <label>Start Time</label>
-          <input id="start" type="time" required />
-        </div>
-        <div style="width:140px">
-          <label>End Time</label>
-          <input id="end" type="time" required />
-        </div>
-      </div>
-
-      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:8px">
+      <div class="row" style="margin-top:10px">
         <div>
-          <label style="display:inline-block;margin-right:8px"><input id="fullDay" type="checkbox" /> Mark full day (12 hours)</label>
-          <span style="color:var(--muted);font-size:13px">— automatically sets start/end if checked</span>
+          <label>Date</label>
+          <input id="attDate" type="date" />
         </div>
-        <div class="controls">
-          <button type="submit" class="btn-primary">Add / Save</button>
-          <button type="button" id="clearForm" class="btn-ghost">Clear</button>
+        <div>
+          <label>Role (auto)</label>
+          <input id="attRole" type="text" readonly />
         </div>
       </div>
 
-      <div class="meta" style="margin-top:12px">
-        <div>Total entries: <strong id="count">0</strong></div>
-        <div>Today: <strong id="todayCount">0</strong></div>
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label>Start</label>
+          <input id="attStart" type="time" />
+        </div>
+        <div>
+          <label>End</label>
+          <input id="attEnd" type="time" />
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <label><input id="attFull" type="checkbox" /> Full day (12 hours)</label>
+        <div class="controls">
+          <button type="submit" class="btn-primary">Save Attendance</button>
+          <button type="button" id="clearAtt" class="btn-ghost">Clear</button>
+        </div>
       </div>
     </form>
 
-    <div class="table-wrap">
-      <table id="attendanceTable">
-        <thead>
-          <tr><th>Name</th><th>Role</th><th>Date</th><th>Start</th><th>End</th><th>Hours</th><th>Actions</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <div class="meta"><div>Total entries: <strong id="attCount">0</strong></div><div>Today: <strong id="attToday">0</strong></div></div>
+
+    <div style="margin-top:12px;overflow:auto;max-height:420px">
+      <table id="attTable"><thead><tr><th>Worker</th><th>Role</th><th>Date</th><th>Start</th><th>End</th><th>Hrs</th><th></th></tr></thead><tbody></tbody></table>
     </div>
   </div>
 
+  <!-- Sidebar: worker management & summary -->
   <div>
     <div class="card" style="margin-bottom:12px">
-      <h3 style="margin:0 0 8px 0">Quick Actions</h3>
-      <p style="margin:0 0 12px 0;color:var(--muted);font-size:13px">Use quick templates for common day types.</p>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <button id="quickHalf" class="btn-ghost small">Half Day (~6 hrs)</button>
-        <button id="quickFull" class="btn-ghost small">Full Day (12 hrs)</button>
-        <button id="quickOvertime" class="btn-ghost small">Overtime (>=12 hrs)</button>
-        <button id="clearAll" class="btn-ghost small">Clear All Local Data</button>
+      <h3 style="margin:0 0 8px 0">Worker Register</h3>
+      <form id="workerForm">
+        <label>Name</label>
+        <input id="wName" type="text" placeholder="Ex: Ram Kumar" />
+        <label style="margin-top:10px">Role</label>
+        <input id="wRole" type="text" placeholder="Ex: Carpenter" />
+        <div class="controls" style="margin-top:10px">
+          <button type="submit" class="btn-primary small">Add Worker</button>
+          <button type="button" id="clearWorkers" class="btn-ghost small">Clear All Workers</button>
+        </div>
+      </form>
+
+      <div style="margin-top:12px;max-height:200px;overflow:auto">
+        <table id="workersTable"><thead><tr><th>Name</th><th>Role</th><th></th></tr></thead><tbody></tbody></table>
       </div>
     </div>
 
     <div class="card">
       <h3 style="margin:0 0 8px 0">Summary</h3>
-      <div style="font-size:14px;color:var(--muted)">
-        <p style="margin:6px 0">Total Workers: <strong id="uniqueCount">0</strong></p>
-        <p style="margin:6px 0">Total Hours (all entries): <strong id="totalHours">0</strong></p>
-        <p style="margin:6px 0">Last saved: <strong id="lastSaved">—</strong></p>
-      </div>
+      <p style="margin:6px 0;color:var(--muted)">Total Workers: <strong id="totalWorkers">0</strong></p>
+      <p style="margin:6px 0;color:var(--muted)">Total Hours: <strong id="sumHours">0</strong></p>
+      <p style="margin:6px 0;color:var(--muted)">Last saved: <strong id="lastSaved">—</strong></p>
     </div>
   </div>
 </div>
 
   </div>  <script>
-    // Utility helpers
+    // Keys
+    const W_KEY = 'fk_workers_v1';
+    const A_KEY = 'fk_attendance_v2';
+
+    // Helpers
     const $ = id => document.getElementById(id);
-    const LS_KEY = 'fk_attendance_v1';
+    function load(key){ try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []} }
+    function save(key,val){ localStorage.setItem(key, JSON.stringify(val)); $('lastSaved').textContent = new Date().toLocaleString(); }
+    function timeToMin(t){ if(!t) return 0; const [h,m]=t.split(':').map(Number); return h*60+m }
+    function minToH(m){ const h = Math.floor(m/60); const mm = m%60; return h + ':' + String(mm).padStart(2,'0') }
 
-    function timeToMinutes(t){ if(!t) return 0; const [h,m] = t.split(':').map(Number); return h*60 + m }
-    function minutesToHH(mm){ const h = Math.floor(mm/60); const m = mm % 60; return h + ':' + String(m).padStart(2,'0') }
-
-    // Load / Save
-    function loadData(){ try{ return JSON.parse(localStorage.getItem(LS_KEY) || '[]') }catch(e){return []} }
-    function saveData(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); $('lastSaved').textContent = new Date().toLocaleString(); }
-
-    // Render table
-    function render(filter=''){
-      const arr = loadData();
-      const tbody = document.querySelector('#attendanceTable tbody'); tbody.innerHTML = '';
-      let totalMins = 0; const names = new Set(); const today = new Date().toISOString().slice(0,10); let todayCount=0;
-      arr.filter(item=>{
-        if(!filter) return true;
-        const f = filter.toLowerCase();
-        return item.name.toLowerCase().includes(f) || item.date.includes(f) || (item.role||'').toLowerCase().includes(f);
-      }).forEach((item, idx)=>{
-        names.add(item.name);
-        const row = document.createElement('tr');
-        const hoursMins = Math.max(0, timeToMinutes(item.end) - timeToMinutes(item.start));
-        totalMins += hoursMins;
-        if(item.date === today) todayCount++;
-        row.innerHTML = `
-          <td>${escapeHtml(item.name)}</td>
-          <td>${escapeHtml(item.role||'')}</td>
-          <td>${item.date}</td>
-          <td>${item.start}</td>
-          <td>${item.end}</td>
-          <td><span class="chip ${hoursMins>=12*60? 'ok': (hoursMins>=6*60?'warn':'danger')}">${minutesToHH(hoursMins)}</span></td>
-          <td class="actions">
-            <button data-idx="${idx}" class="btn-ghost small edit">Edit</button>
-            <button data-idx="${idx}" class="btn-ghost small del">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-      $('count').textContent = loadData().length;
-      $('todayCount').textContent = todayCount;
-      $('uniqueCount').textContent = names.size;
-      $('totalHours').textContent = (totalMins/60).toFixed(2) + ' hrs';
-    }
-
-    function escapeHtml(s){ return (s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-
-    // Attach events
+    // Init defaults
     document.addEventListener('DOMContentLoaded', ()=>{
-      // init date to today
-      const now = new Date();
-      $('date').value = now.toISOString().slice(0,10);
-      $('start').value = '09:00';
-      $('end').value = '21:00';
-      render();
+      // set today date
+      const today = new Date().toISOString().slice(0,10); $('attDate').value = today;
+      $('attStart').value='09:00'; $('attEnd').value='21:00';
+      renderWorkers(); renderAttendance();
 
-      // Full day checkbox
-      $('fullDay').addEventListener('change', e=>{
-        if(e.target.checked){ $('start').value='09:00'; $('end').value='21:00'; }
+      // Worker form
+      $('workerForm').addEventListener('submit', e=>{
+        e.preventDefault(); const name = $('wName').value.trim(); const role = $('wRole').value.trim(); if(!name) return alert('Naam daalna zaroori hai');
+        const arr = load(W_KEY); arr.push({id: Date.now(), name, role}); save(W_KEY, arr); $('wName').value=''; $('wRole').value=''; renderWorkers();
       });
 
-      // Form submit
-      $('attendanceForm').addEventListener('submit', e=>{
-        e.preventDefault();
-        const name = $('name').value.trim(); if(!name) return alert('Worker name required');
-        const role = $('role').value.trim(); const date = $('date').value; const start = $('start').value; const end = $('end').value;
-        if(!date || !start || !end) return alert('Date, start and end required');
-        const arr = loadData();
-        arr.push({name, role, date, start, end});
-        saveData(arr); render($('search').value.trim());
-        clearForm();
+      $('clearWorkers').addEventListener('click', ()=>{ if(!confirm('Saare workers hata den?')) return; localStorage.removeItem(W_KEY); renderWorkers(); });
+
+      // Attendance form
+      $('attForm').addEventListener('submit', e=>{
+        e.preventDefault(); const wid = $('workerSelect').value; if(!wid) return alert('Pehle worker select karein');
+        const workers = load(W_KEY); const w = workers.find(x=>String(x.id)===wid); if(!w) return alert('Worker mil nahi raha');
+        const date = $('attDate').value; const start = $('attStart').value; const end = $('attEnd').value; if(!date||!start||!end) return alert('Date, start aur end chahiye');
+        const arr = load(A_KEY); arr.push({id: Date.now(), workerId: w.id, name: w.name, role: w.role, date, start, end}); save(A_KEY,arr); renderAttendance(); clearAttForm();
       });
 
-      // Clear form
-      $('clearForm').addEventListener('click', clearForm);
-      function clearForm(){ $('name').value=''; $('role').value=''; $('start').value='09:00'; $('end').value='21:00'; $('fullDay').checked=false; }
+      $('clearAtt').addEventListener('click', clearAttForm);
 
-      // Delegated edit / delete
-      document.querySelector('#attendanceTable tbody').addEventListener('click', e=>{
-        if(e.target.classList.contains('del')){
-          const idx = Number(e.target.dataset.idx); const arr = loadData(); if(!confirm('Delete this entry?')) return; arr.splice(idx,1); saveData(arr); render($('search').value.trim());
-        }
-        if(e.target.classList.contains('edit')){
-          const idx = Number(e.target.dataset.idx); const arr = loadData(); const it = arr[idx]; if(!it) return; $('name').value=it.name; $('role').value=it.role||''; $('date').value=it.date; $('start').value=it.start; $('end').value=it.end; // remove original
-          arr.splice(idx,1); saveData(arr); render($('search').value.trim());
-        }
-      });
-
-      // Search
-      $('search').addEventListener('input', e=> render(e.target.value.trim()));
-
-      // Quick actions
-      $('quickFull').addEventListener('click', ()=>{
-        $('start').value='09:00'; $('end').value='21:00'; $('fullDay').checked=true; $('name').focus();
-      });
-      $('quickHalf').addEventListener('click', ()=>{ $('start').value='09:00'; $('end').value='15:00'; $('fullDay').checked=false; $('name').focus(); });
-      $('quickOvertime').addEventListener('click', ()=>{ $('start').value='08:00'; $('end').value='22:00'; $('fullDay').checked=false; $('name').focus(); });
-
-      // Clear all
-      $('clearAll').addEventListener('click', ()=>{ if(!confirm('Erase all local attendance data?')) return; localStorage.removeItem(LS_KEY); render(); });
+      $('attFull').addEventListener('change', e=>{ if(e.target.checked){ $('attStart').value='09:00'; $('attEnd').value='21:00'; } });
 
       // Export CSV
       $('exportCsv').addEventListener('click', ()=>{
-        const arr = loadData(); if(!arr.length) return alert('No entries to export');
-        const rows = [['Name','Role','Date','Start','End','Hours']];
-        arr.forEach(it=>{ const mins = Math.max(0,timeToMinutes(it.end)-timeToMinutes(it.start)); rows.push([it.name,it.role||'',it.date,it.start,it.end, minutesToHH(mins)]) });
-        const csv = rows.map(r=>r.map(c=>`"${String(c).replaceAll('"','""')}"`).join(',')).join('\n');
-        const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `attendance_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url);
+        const rows = load(A_KEY).map(it=>{
+          const mins = Math.max(0, timeToMin(it.end)-timeToMin(it.start));
+          return [it.name, it.role||'', it.date, it.start, it.end, minToH(mins)];
+        });
+        if(!rows.length) return alert('Koi attendance record nahi');
+        const csv = ['Name,Role,Date,Start,End,Hours', ...rows.map(r=>r.map(c=>`"${String(c).replaceAll('"','""')}").join(',')).join('
+')];
+        const blob = new Blob([csv.join('
+')],{type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download = `attendance_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url);
       });
+
+      // Search
+      $('search').addEventListener('input', e=> renderAttendance(e.target.value.trim().toLowerCase()));
 
       // Print
       $('printTable').addEventListener('click', ()=> window.print());
-
-      // Click on table to re-render (needed for dynamic delegation after load)
-      render();
     });
+
+    // Render workers
+    function renderWorkers(){
+      const tbody = document.querySelector('#workersTable tbody'); const sel = $('workerSelect'); tbody.innerHTML=''; sel.innerHTML='<option value="">-- Select worker --</option>';
+      const arr = load(W_KEY);
+      arr.forEach(w=>{
+        const tr = document.createElement('tr'); tr.innerHTML = `<td>${esc(w.name)}</td><td>${esc(w.role||'')}</td><td><button class=\"btn-ghost small\" data-id=\"${w.id}\" onclick=\"deleteWorker(${w.id})\">Delete</button></td>`;
+        tbody.appendChild(tr);
+        const opt = document.createElement('option'); opt.value = w.id; opt.textContent = w.name + (w.role? ' — '+w.role:''); sel.appendChild(opt);
+      });
+      $('totalWorkers').textContent = arr.length;
+      // when select changes, set role
+      sel.addEventListener('change', ()=>{
+        const id = sel.value; const found = arr.find(x=>String(x.id)===id); $('attRole').value = found ? found.role : '';
+      });
+    }
+
+    // delete worker
+    function deleteWorker(id){ if(!confirm('Kya aap sure hain?')) return; const arr = load(W_KEY).filter(w=>w.id!==id); save(W_KEY,arr); // also remove attendance of that worker
+      const att = load(A_KEY).filter(a=>a.workerId!==id); save(A_KEY,att); renderWorkers(); renderAttendance(); }
+
+    // Render attendance
+    function renderAttendance(filter=''){
+      const tbody = document.querySelector('#attTable tbody'); tbody.innerHTML='';
+      const arr = load(A_KEY);
+      let totalMin=0; const today = new Date().toISOString().slice(0,10); let todayCount=0;
+      arr.filter(it=>{
+        if(!filter) return true;
+        return it.name.toLowerCase().includes(filter) || it.date.includes(filter) || (it.role||'').toLowerCase().includes(filter);
+      }).forEach(it=>{
+        const mins = Math.max(0, timeToMin(it.end)-timeToMin(it.start)); totalMin += mins; if(it.date===today) todayCount++;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${esc(it.name)}</td><td>${esc(it.role||'')}</td><td>${it.date}</td><td>${it.start}</td><td>${it.end}</td><td><span class=\"chip ${mins>=12*60? 'ok':''}\">${minToH(mins)}</span></td><td><button class=\"btn-ghost small\" onclick=\"editAtt(${it.id})\">Edit</button> <button class=\"btn-ghost small\" onclick=\"delAtt(${it.id})\">Delete</button></td>`;
+        tbody.appendChild(tr);
+      });
+      $('attCount').textContent = arr.length; $('attToday').textContent = todayCount; $('sumHours').textContent = (totalMin/60).toFixed(2) + ' hrs';
+    }
+
+    // Edit / Delete attendance
+    function delAtt(id){ if(!confirm('Delete this entry?')) return; const arr = load(A_KEY).filter(a=>a.id!==id); save(A_KEY,arr); renderAttendance(); }
+    function editAtt(id){ const arr = load(A_KEY); const it = arr.find(a=>a.id===id); if(!it) return; // fill form and remove original
+      $('workerSelect').value = it.workerId; $('attRole').value = it.role; $('attDate').value = it.date; $('attStart').value = it.start; $('attEnd').value = it.end; // remove
+      const newArr = arr.filter(a=>a.id!==id); save(A_KEY,newArr); renderAttendance(); }
+
+    function clearAttForm(){ $('workerSelect').value=''; $('attRole').value=''; $('attStart').value='09:00'; $('attEnd').value='21:00'; $('attFull').checked=false; const today = new Date().toISOString().slice(0,10); $('attDate').value = today; }
+
+    function esc(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
   </script></body>
 </html>
