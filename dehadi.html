@@ -3,44 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Furniture Kaam Dehadi — Dashboard</title>
+<title>Furniture Kaam Dehadi — Dark Dashboard</title>
 <style>
 :root{
-  --bg:#f6fbfb; --card:#fff; --accent:#0ea5a4; --accent-2:#06b6d4;
-  --text:#0f172a; --muted:#6b7280; --success:#16a34a; --danger:#ef4444; --radius:12px; --shadow:0 8px 30px rgba(16,24,40,0.06);
+  --bg:#121212; --card:#1e1e1e; --accent:#0ea5a4; --accent2:#06b6d4;
+  --text:#f5f5f5; --muted:#b0b0b0; --success:#16a34a; --danger:#ef4444; --radius:12px; --shadow:0 4px 20px rgba(0,0,0,0.6);
   font-family:Inter, system-ui, -apple-system,'Segoe UI',Roboto,Arial;
 }
 *{box-sizing:border-box}
-body{margin:0;padding:20px;background:linear-gradient(180deg,var(--bg) 0%,#eef7f7 100%);color:var(--text);}
+body{margin:0;padding:20px;background:var(--bg);color:var(--text);}
 .wrap{max-width:1150px;margin:0 auto;}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.brand h1{margin:0;font-size:20px}
-.brand .logo{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:12px;display:flex;justify-content:center;align-items:center;color:#fff;font-weight:700;font-size:20px;box-shadow:var(--shadow);}
+.brand h1{margin:0;font-size:22px;color:var(--accent);}
+.brand .logo{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;justify-content:center;align-items:center;color:#fff;font-weight:700;font-size:20px;box-shadow:var(--shadow);}
 .buttons{display:flex;gap:12px}
-button{padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer;transition:.2s}
+button{padding:8px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer;transition:.2s}
 button:active{transform:translateY(1px);}
-.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;}
-.btn-ghost{background:#fff;border:1px solid #e6eef2;color:var(--text);}
-.card{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:18px;transition:.2s}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;}
+.btn-ghost{background:#2a2a2a;border:1px solid #333;color:var(--text);}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:18px;transition:.2s}
 .card:hover{transform:translateY(-2px)}
-.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.4);display:none;justify-content:center;align-items:center;z-index:999}
-.modal{background:#fff;border-radius:var(--radius);padding:20px;width:320px;max-width:90%;box-shadow:var(--shadow);position:relative;transform:translateY(-20px);opacity:0;transition:all .25s;}
+.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:999}
+.modal{background:var(--card);border-radius:var(--radius);padding:20px;width:350px;max-width:90%;box-shadow:var(--shadow);position:relative;transform:translateY(-20px);opacity:0;transition:all .25s;}
 .modal.show{opacity:1;transform:translateY(0);}
-.modal h3{margin:0 0 12px 0}
+.modal h3{margin:0 0 12px 0;color:var(--accent);}
 .modal .close{position:absolute;top:10px;right:12px;cursor:pointer;font-weight:700;font-size:18px;color:var(--muted);}
-input,select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef2;margin-bottom:10px;font-size:14px}
-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
-th,td{padding:8px;border-bottom:1px solid #f1f6f8;text-align:left}
+input,select{width:100%;padding:8px;border-radius:8px;border:1px solid #333;background:#2a2a2a;color:#fff;margin-bottom:10px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;color:var(--text)}
+th,td{padding:8px;border-bottom:1px solid #333;text-align:left}
 th{color:var(--muted)}
 .chip{padding:5px 8px;border-radius:999px;font-size:12px;font-weight:600}
-.chip.ok{background:rgba(22,163,74,0.12);color:var(--success)}
-.chip.warn{background:rgba(255,165,0,0.12);color:#c97b00}
-.chip.danger{background:rgba(239,68,68,0.08);color:var(--danger)}
+.chip.ok{background:rgba(22,163,74,0.2);color:var(--success)}
+.chip.warn{background:rgba(255,165,0,0.2);color:#c97b00}
+.chip.danger{background:rgba(239,68,68,0.2);color:var(--danger)}
 .worker-list{max-height:300px;overflow:auto;margin-top:10px}
-.worker-item{padding:8px;border-bottom:1px solid #f1f6f8;cursor:pointer;transition:.15s}
-.worker-item:hover{background:rgba(14,165,164,0.06)}
+.worker-item{padding:8px;border-bottom:1px solid #333;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:space-between}
+.worker-item:hover{background:rgba(14,165,164,0.1)}
+.worker-actions button{margin-left:5px;padding:4px 8px;font-size:12px;}
 .toast-wrap{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:9999}
-.toast{background:#0f172a;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .3s;}
+.toast{background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .3s;}
 .toast.show{opacity:1;transform:none;}
 </style>
 </head>
@@ -53,12 +54,29 @@ th{color:var(--muted)}
     </div>
     <div class="buttons">
       <button class="btn btn-primary" id="btnAddWorker">Add Worker</button>
-      <button class="btn btn-primary" id="btnAddAttendance">Add Attendance</button>
     </div>
   </header>
 
-  <div class="card" id="attendanceCard" style="display:none;">
-    <h3>Attendance for <span id="selectedWorkerName"></span></h3>
+  <div id="workerDashboard"></div>
+</div>
+
+<!-- Modal Worker -->
+<div class="modal-bg" id="modalWorker">
+  <div class="modal">
+    <span class="close" id="closeWorker">&times;</span>
+    <h3>Register Worker</h3>
+    <input type="text" id="wName" placeholder="Worker Name">
+    <input type="text" id="wPhone" placeholder="Phone Number">
+    <input type="text" id="wRole" placeholder="Role (Ex: Carpenter)">
+    <button class="btn btn-primary" id="saveWorker">Register Worker</button>
+  </div>
+</div>
+
+<!-- Modal Attendance -->
+<div class="modal-bg" id="modalAttendance">
+  <div class="modal">
+    <span class="close" id="closeAttendance">&times;</span>
+    <h3>Attendance for <span id="attWorkerName"></span></h3>
     <form id="attForm">
       <label>Date</label>
       <input type="date" id="attDate">
@@ -69,39 +87,18 @@ th{color:var(--muted)}
       <label><input type="checkbox" id="attFull"> Full day (12 hrs)</label>
       <div style="margin-top:10px;">
         <button type="submit" class="btn btn-primary">Save Attendance</button>
-        <button type="button" class="btn btn-ghost" id="clearAtt">Clear</button>
       </div>
     </form>
     <div class="worker-list" id="workerAttendanceList"></div>
   </div>
 </div>
 
-<!-- Modal Worker -->
-<div class="modal-bg" id="modalWorker">
-  <div class="modal">
-    <span class="close" id="closeWorker">&times;</span>
-    <h3>Register Worker</h3>
-    <input type="text" id="wName" placeholder="Worker Name">
-    <input type="text" id="wRole" placeholder="Role (Ex: Carpenter)">
-    <button class="btn btn-primary" id="saveWorker">Register Worker</button>
-  </div>
-</div>
-
-<!-- Modal Attendance (select worker) -->
-<div class="modal-bg" id="modalAttendance">
-  <div class="modal">
-    <span class="close" id="closeAttendance">&times;</span>
-    <h3>Select Worker</h3>
-    <div class="worker-list" id="workerListForAttendance"></div>
-  </div>
-</div>
-
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-// Storage keys
-const W_KEY = 'fk_workers';
-const A_KEY = 'fk_attendance';
+// Keys
+const W_KEY='fk_workers';
+const A_KEY='fk_attendance';
 
 // Utils
 const $=id=>document.getElementById(id);
@@ -117,80 +114,83 @@ function hideModal(id){$(id).querySelector('.modal').classList.remove('show');se
 $('btnAddWorker').onclick=()=>showModal('modalWorker');
 $('closeWorker').onclick=()=>hideModal('modalWorker');
 $('saveWorker').onclick=()=>{
-  const name=$('wName').value.trim(),role=$('wRole').value.trim();
-  if(!name){toast('Name required');return;}
-  const arr=load(W_KEY);if(arr.some(w=>w.name.toLowerCase()===name.toLowerCase())){toast('Already exists');return;}
-  arr.push({id:Date.now(),name,role});save(W_KEY,arr);
-  $('wName').value='';$('wRole').value='';hideModal('modalWorker');toast('Worker registered')
+  const name=$('wName').value.trim(),phone=$('wPhone').value.trim(),role=$('wRole').value.trim();
+  if(!name||!phone){toast('Name and phone required');return;}
+  const arr=load(W_KEY);
+  if(arr.some(w=>w.phone===phone)){toast('Phone already exists');return;}
+  arr.push({id:Date.now(),name,phone,role});save(W_KEY,arr);
+  $('wName').value='';$('wPhone').value='';$('wRole').value='';hideModal('modalWorker');toast('Worker registered');renderDashboard();
 }
 
-// Add Attendance Modal
-$('btnAddAttendance').onclick=()=>{
-  showModal('modalAttendance');renderWorkerAttendanceList();
-}
-$('closeAttendance').onclick=()=>hideModal('modalAttendance');
-
-// Render Worker list for attendance
-function renderWorkerAttendanceList(){
-  const arr=load(W_KEY);const container=$('workerListForAttendance');container.innerHTML='';
-  arr.forEach(w=>{
-    const div=document.createElement('div');div.className='worker-item';div.textContent=w.name+(w.role?' — '+w.role:'');
-    div.onclick=()=>selectWorkerAttendance(w);container.appendChild(div);
+// Render Dashboard
+function renderDashboard(){
+  const container=$('workerDashboard');container.innerHTML='';
+  const workers=load(W_KEY);
+  if(!workers.length){container.innerHTML='<p>No workers yet.</p>';return;}
+  workers.forEach(w=>{
+    const card=document.createElement('div');card.className='card worker-item';
+    card.innerHTML=`
+      <div>
+        <strong>${w.name}</strong> ${w.role?'- '+w.role:''}<br>
+        <span style="color:var(--muted)">${w.phone}</span>
+      </div>
+      <div class="worker-actions">
+        <button class="btn btn-ghost" onclick="window.location='tel:${w.phone}'">Call</button>
+        <button class="btn btn-ghost" onclick="window.open('https://wa.me/${w.phone}','_blank')">WhatsApp</button>
+        <button class="btn btn-primary" onclick="openAttendance(${w.id})">View Attendance</button>
+      </div>
+    `;
+    container.appendChild(card);
   });
 }
 
-// When worker selected -> show attendance card
-function selectWorkerAttendance(worker){
-  hideModal('modalAttendance');
-  $('attendanceCard').style.display='block';
-  $('selectedWorkerName').textContent=worker.name;
-  renderAttendance(worker.id);
-  // fill date default
-  $('attDate').value=new Date().toISOString().slice(0,10);
-}
-
-// Attendance Form
-$('attForm').onsubmit=e=>{
-  e.preventDefault();
-  const workerName=$('selectedWorkerName').textContent;
-  const worker = load(W_KEY).find(w=>w.name===workerName);
+// Attendance
+function openAttendance(workerId){
+  const worker=load(W_KEY).find(w=>w.id===workerId);
   if(!worker){toast('Worker not found');return;}
-  const date=$('attDate').value,start=$('attStart').value,end=$('attEnd').value;
-  const arr=load(A_KEY);
-  arr.push({id:Date.now(),workerId:worker.id,date,start,end});
-  save(A_KEY,arr);toast('Attendance saved');renderAttendance(worker.id);
-}
-$('clearAtt').onclick=()=>{
-  $('attStart').value='09:00';$('attEnd').value='21:00';$('attFull').checked=false;
-}
-$('attFull').onchange=e=>{
-  if(e.target.checked){$('attStart').value='09:00';$('attEnd').value='21:00'}
+  showModal('modalAttendance');$('attWorkerName').textContent=worker.name;
+  $('attDate').value=new Date().toISOString().slice(0,10);
+  renderAttendance(workerId);
+  $('attForm').onsubmit=e=>{
+    e.preventDefault();
+    const date=$('attDate').value,start=$('attStart').value,end=$('attEnd').value;
+    const arr=load(A_KEY);
+    arr.push({id:Date.now(),workerId,date,start,end});
+    save(A_KEY,arr);toast('Attendance saved');renderAttendance(workerId);
+  }
+  $('attFull').onchange=e=>{
+    if(e.target.checked){$('attStart').value='09:00';$('attEnd').value='21:00'}
+  }
 }
 
-// Render attendance for selected worker
+// Render attendance list
 function renderAttendance(workerId){
-  const arr=load(A_KEY).filter(a=>a.workerId===workerId).sort((a,b)=>b.id-a.id);
   const container=$('workerAttendanceList');container.innerHTML='';
-  if(!arr.length){container.innerHTML='<p class="muted">No attendance yet.</p>';return;}
-  const table=document.createElement('table');
-  table.innerHTML='<thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hrs</th></tr></thead>';
-  const tbody=document.createElement('tbody');
+  const arr=load(A_KEY).filter(a=>a.workerId===workerId).sort((a,b)=>b.id-a.id);
+  if(!arr.length){container.innerHTML='<p>No attendance yet.</container.innerHTML='<p style="color:var(--muted)">No attendance yet.</p>'; return; }
+  const table = document.createElement('table');
+  table.innerHTML = '<thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hours</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+
   arr.forEach(a=>{
-    const mins=Math.max(0,(a.end.split(':')[0]*60+parseInt(a.end.split(':')[1]))-(a.start.split(':')[0]*60+parseInt(a.start.split(':')[1])));
-    const row = document.createElement('tr');
+    const startMins = parseInt(a.start.split(':')[0])*60 + parseInt(a.start.split(':')[1]);
+    const endMins = parseInt(a.end.split(':')[0])*60 + parseInt(a.end.split(':')[1]);
+    const mins = Math.max(0, endMins - startMins);
     const hours = Math.floor(mins/60);
     const minutes = mins % 60;
     const hhmm = `${hours}:${minutes.toString().padStart(2,'0')}`;
     let chipClass = mins >= 12*60 ? 'ok' : (mins >= 6*60 ? 'warn' : 'danger');
+    const row = document.createElement('tr');
     row.innerHTML = `<td>${a.date}</td><td>${a.start}</td><td>${a.end}</td><td><span class="chip ${chipClass}">${hhmm}</span></td>`;
     tbody.appendChild(row);
   });
+
   table.appendChild(tbody);
   container.appendChild(table);
 }
 
-// Initial load: hide attendance card
-$('attendanceCard').style.display='none';
+// Initial render
+renderDashboard();
 </script>
 </body>
 </html>
