@@ -1,464 +1,196 @@
 <!doctype html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Furniture Kaam Dehadi — Attendance (Smooth)</title>
-  <style>
-    :root{
-      --bg: #f6fbfb;
-      --card: #ffffff;
-      --muted:#6b7280;
-      --text:#0f172a;
-      --accent: #0ea5a4; /* default accent (can change from UI) */
-      --accent-2: #06b6d4;
-      --success: #16a34a;
-      --danger: #ef4444;
-      --glass: rgba(255,255,255,0.6);
-      --radius: 12px;
-      --shadow: 0 8px 30px rgba(16,24,40,0.06);
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:
-        radial-gradient(800px 300px at 10% 10%, rgba(14,165,164,0.06), transparent 10%),
-        linear-gradient(180deg,var(--bg) 0%, #eef7f7 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:20px;
-    }
-
-    .wrap{max-width:1150px;margin:0 auto}
-
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-    .brand{display:flex;gap:14px;align-items:center}
-    .logo{
-      width:64px;height:64px;border-radius:14px;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;box-shadow:var(--shadow);
-    }
-    h1{font-size:20px;margin:0}
-    .lead{margin:0;color:var(--muted);font-size:13px}
-
-    .top-controls{display:flex;gap:8px;align-items:center}
-    .search{padding:10px 12px;border-radius:12px;border:1px solid #e6eef2;background:white;min-width:200px;transition:box-shadow .18s}
-    .search:focus{outline:none;box-shadow:0 6px 18px rgba(14,165,164,0.08)}
-
-    .btn{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700;transition:transform .08s ease, box-shadow .08s}
-    .btn:active{transform:translateY(1px)}
-    .btn-ghost{background:transparent;border:1px solid #e6eef2;color:var(--text)}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 6px 18px rgba(14,165,164,0.12)}
-
-    .main-grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-    @media(max-width:980px){ .main-grid{grid-template-columns:1fr} .top-controls{flex-wrap:wrap} }
-
-    .card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:transform .12s, box-shadow .12s}
-    .card:hover{transform:translateY(-4px)}
-
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input,select{width:100%;padding:10px;border-radius:10px;border:1px solid #eef6f6;background:transparent;font-size:14px}
-    .row{display:flex;gap:10px}
-    .row>div{flex:1}
-    .controls{display:flex;gap:8px;justify-content:flex-end}
-
-    table{width:100%;border-collapse:collapse;font-size:14px}
-    th,td{padding:8px;text-align:left;border-bottom:1px solid #f1f6f8}
-    th{font-size:12px;color:var(--muted);font-weight:700}
-    .chip{padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px;background:rgba(0,0,0,0.03)}
-    .chip.good{background:rgba(22,163,74,0.12);color:var(--success)}
-    .muted{color:var(--muted);font-size:13px}
-    .small{font-size:13px;padding:8px 10px;border-radius:8px}
-
-    /* Accent swatches */
-    .swatches{display:flex;gap:8px;align-items:center}
-    .swatch{width:28px;height:28px;border-radius:8px;border:2px solid rgba(255,255,255,0.5);cursor:pointer;box-shadow:0 4px 14px rgba(2,6,23,0.04)}
-    .swatch:hover{transform:translateY(-3px);}
-
-    /* Toast */
-    .toast-wrap{position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;flex-direction:column;gap:10px}
-    .toast{background:#0f172a;color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.25);opacity:0;transform:translateY(8px);transition:all .28s}
-    .toast.show{opacity:1;transform:none}
-
-    /* nice table scroll */
-    .table-scroll{max-height:420px;overflow:auto;border-radius:8px;}
-
-    /* small helpers */
-    .right{display:flex;gap:8px;align-items:center}
-    .muted-xs{color:var(--muted);font-size:12px}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Furniture Kaam Dehadi — Dashboard</title>
+<style>
+:root{
+  --bg:#f6fbfb; --card:#fff; --accent:#0ea5a4; --accent-2:#06b6d4;
+  --text:#0f172a; --muted:#6b7280; --success:#16a34a; --danger:#ef4444; --radius:12px; --shadow:0 8px 30px rgba(16,24,40,0.06);
+  font-family:Inter, system-ui, -apple-system,'Segoe UI',Roboto,Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:linear-gradient(180deg,var(--bg) 0%,#eef7f7 100%);color:var(--text);}
+.wrap{max-width:1150px;margin:0 auto;}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.brand h1{margin:0;font-size:20px}
+.brand .logo{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:12px;display:flex;justify-content:center;align-items:center;color:#fff;font-weight:700;font-size:20px;box-shadow:var(--shadow);}
+.buttons{display:flex;gap:12px}
+button{padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer;transition:.2s}
+button:active{transform:translateY(1px);}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;}
+.btn-ghost{background:#fff;border:1px solid #e6eef2;color:var(--text);}
+.card{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:18px;transition:.2s}
+.card:hover{transform:translateY(-2px)}
+.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.4);display:none;justify-content:center;align-items:center;z-index:999}
+.modal{background:#fff;border-radius:var(--radius);padding:20px;width:320px;max-width:90%;box-shadow:var(--shadow);position:relative;transform:translateY(-20px);opacity:0;transition:all .25s;}
+.modal.show{opacity:1;transform:translateY(0);}
+.modal h3{margin:0 0 12px 0}
+.modal .close{position:absolute;top:10px;right:12px;cursor:pointer;font-weight:700;font-size:18px;color:var(--muted);}
+input,select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef2;margin-bottom:10px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+th,td{padding:8px;border-bottom:1px solid #f1f6f8;text-align:left}
+th{color:var(--muted)}
+.chip{padding:5px 8px;border-radius:999px;font-size:12px;font-weight:600}
+.chip.ok{background:rgba(22,163,74,0.12);color:var(--success)}
+.chip.warn{background:rgba(255,165,0,0.12);color:#c97b00}
+.chip.danger{background:rgba(239,68,68,0.08);color:var(--danger)}
+.worker-list{max-height:300px;overflow:auto;margin-top:10px}
+.worker-item{padding:8px;border-bottom:1px solid #f1f6f8;cursor:pointer;transition:.15s}
+.worker-item:hover{background:rgba(14,165,164,0.06)}
+.toast-wrap{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:9999}
+.toast{background:#0f172a;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;transform:translateY(8px);transition:all .3s;}
+.toast.show{opacity:1;transform:none;}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">FK</div>
-        <div>
-          <h1>Furniture Kaam Dehadi — Attendance</h1>
-          <p class="lead">Register workers once. Phir unko select karke roz attendance lagao. Offline & localStorage.</p>
-        </div>
-      </div>
-
-      <div class="top-controls">
-        <input id="search" class="search" placeholder="Search name / date / role" />
-        <button id="exportCsv" class="btn btn-ghost small">Export CSV</button>
-        <button id="printTable" class="btn btn-ghost small">Print</button>
-        <div style="width:8px"></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="muted-xs">Accent</div>
-          <div class="swatches" id="swatches">
-            <!-- swatches inserted by JS -->
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="main-grid">
-      <!-- Attendance panel -->
-      <div class="card">
-        <h3 style="margin:0 0 10px 0">Attendance Lagao</h3>
-
-        <form id="attForm" autocomplete="off">
-          <label>Worker</label>
-          <select id="workerSelect"><option value="">— Select worker —</option></select>
-
-          <div class="row" style="margin-top:10px">
-            <div>
-              <label>Date</label>
-              <input id="attDate" type="date" />
-            </div>
-            <div>
-              <label>Role (auto)</label>
-              <input id="attRole" type="text" readonly />
-            </div>
-          </div>
-
-          <div class="row" style="margin-top:10px">
-            <div>
-              <label>Start</label>
-              <input id="attStart" type="time" />
-            </div>
-            <div>
-              <label>End</label>
-              <input id="attEnd" type="time" />
-            </div>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-            <label style="display:flex;gap:8px;align-items:center">
-              <input id="attFull" type="checkbox" /> <span class="muted-xs">Full day (12 hrs auto)</span>
-            </label>
-
-            <div class="controls">
-              <button type="submit" class="btn btn-primary">Save Attendance</button>
-              <button type="button" id="clearAtt" class="btn btn-ghost">Clear</button>
-            </div>
-          </div>
-        </form>
-
-        <div class="meta" style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
-          <div class="muted">Total entries: <strong id="attCount">0</strong></div>
-          <div class="muted">Today: <strong id="attToday">0</strong></div>
-        </div>
-
-        <div style="margin-top:12px" class="table-scroll">
-          <table id="attTable">
-            <thead>
-              <tr><th>Worker</th><th>Role</th><th>Date</th><th>Start</th><th>End</th><th>Hrs</th><th></th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Sidebar: worker register + summary -->
-      <div>
-        <div class="card" style="margin-bottom:12px">
-          <h3 style="margin:0 0 8px 0">Worker Register</h3>
-          <form id="workerForm" autocomplete="off">
-            <label>Name</label>
-            <input id="wName" type="text" placeholder="Ex: Ram Kumar" />
-            <label style="margin-top:10px">Role</label>
-            <input id="wRole" type="text" placeholder="Ex: Carpenter" />
-            <div class="controls" style="margin-top:12px">
-              <button type="submit" class="btn btn-primary small">Add Worker</button>
-              <button type="button" id="clearWorkers" class="btn btn-ghost small">Clear All</button>
-            </div>
-          </form>
-
-          <div style="margin-top:12px;max-height:220px;overflow:auto">
-            <table id="workersTable">
-              <thead><tr><th>Name</th><th>Role</th><th></th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin:0 0 8px 0">Summary</h3>
-          <p class="muted" style="margin:8px 0">Total Workers: <strong id="totalWorkers">0</strong></p>
-          <p class="muted" style="margin:8px 0">Total Hours: <strong id="sumHours">0</strong></p>
-          <p class="muted" style="margin:8px 0">Last saved: <strong id="lastSaved">—</strong></p>
-        </div>
-      </div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">FK</div>
+      <h1>Furniture Kaam Dehadi</h1>
     </div>
+    <div class="buttons">
+      <button class="btn btn-primary" id="btnAddWorker">Add Worker</button>
+      <button class="btn btn-primary" id="btnAddAttendance">Add Attendance</button>
+    </div>
+  </header>
+
+  <div class="card" id="attendanceCard" style="display:none;">
+    <h3>Attendance for <span id="selectedWorkerName"></span></h3>
+    <form id="attForm">
+      <label>Date</label>
+      <input type="date" id="attDate">
+      <label>Start</label>
+      <input type="time" id="attStart" value="09:00">
+      <label>End</label>
+      <input type="time" id="attEnd" value="21:00">
+      <label><input type="checkbox" id="attFull"> Full day (12 hrs)</label>
+      <div style="margin-top:10px;">
+        <button type="submit" class="btn btn-primary">Save Attendance</button>
+        <button type="button" class="btn btn-ghost" id="clearAtt">Clear</button>
+      </div>
+    </form>
+    <div class="worker-list" id="workerAttendanceList"></div>
   </div>
+</div>
 
-  <!-- toasts -->
-  <div class="toast-wrap" id="toasts"></div>
+<!-- Modal Worker -->
+<div class="modal-bg" id="modalWorker">
+  <div class="modal">
+    <span class="close" id="closeWorker">&times;</span>
+    <h3>Register Worker</h3>
+    <input type="text" id="wName" placeholder="Worker Name">
+    <input type="text" id="wRole" placeholder="Role (Ex: Carpenter)">
+    <button class="btn btn-primary" id="saveWorker">Register Worker</button>
+  </div>
+</div>
 
-  <script>
-    /* ======= Config / Storage keys ======= */
-    const W_KEY = 'fk_workers_v2';
-    const A_KEY = 'fk_attendance_v3';
+<!-- Modal Attendance (select worker) -->
+<div class="modal-bg" id="modalAttendance">
+  <div class="modal">
+    <span class="close" id="closeAttendance">&times;</span>
+    <h3>Select Worker</h3>
+    <div class="worker-list" id="workerListForAttendance"></div>
+  </div>
+</div>
 
-    /* ======= Utils ======= */
-    const $ = id => document.getElementById(id);
-    const nowDateISO = () => new Date().toISOString().slice(0,10);
-    const timeToMin = t => { if(!t) return 0; const [h,m] = t.split(':').map(Number); return h*60 + m }
-    const minToHH = m => { const h = Math.floor(m/60); const mm = m % 60; return h + ':' + String(mm).padStart(2,'0') }
+<div class="toast-wrap" id="toasts"></div>
 
-    function load(key){ try { return JSON.parse(localStorage.getItem(key) || '[]') } catch(e){ return [] } }
-    function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); $('lastSaved').textContent = new Date().toLocaleString(); }
+<script>
+// Storage keys
+const W_KEY = 'fk_workers';
+const A_KEY = 'fk_attendance';
 
-    function toast(msg, timeout = 2500){
-      const wrap = $('toasts');
-      const d = document.createElement('div'); d.className='toast'; d.textContent = msg; wrap.appendChild(d);
-      // show
-      requestAnimationFrame(()=> d.classList.add('show'));
-      setTimeout(()=>{ d.classList.remove('show'); setTimeout(()=> d.remove(), 320) }, timeout);
-    }
+// Utils
+const $=id=>document.getElementById(id);
+function load(key){return JSON.parse(localStorage.getItem(key)||'[]')}
+function save(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('toasts').appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),320)},2000)}
 
-    /* ======= Accent Swatches ======= */
-    const PRESET_ACCENTS = ['#0ea5a4','#06b6d4','#f59e0b','#ef4444','#7c3aed','#ef7bbd'];
-    function buildSwatches(){
-      const wrap = $('swatches');
-      PRESET_ACCENTS.forEach(c=>{
-        const s = document.createElement('div'); s.className='swatch'; s.style.background=c;
-        s.title = c;
-        s.addEventListener('click', ()=> {
-          document.documentElement.style.setProperty('--accent', c);
-          // compute a slightly darker for accent-2
-          const darker = shadeColor(c, -10);
-          document.documentElement.style.setProperty('--accent-2', darker);
-          toast('Accent changed');
-        });
-        wrap.appendChild(s);
-      });
-    }
-    // small shade function
-    function shadeColor(hex, percent) {
-      const f=parseInt(hex.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent;
-      const R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-      const newR=Math.round((t-R)*p/100)+R, newG=Math.round((t-G)*p/100)+G, newB=Math.round((t-B)*p/100)+B;
-      return "#" + (0x1000000 + (newR<<16) + (newG<<8) + newB).toString(16).slice(1);
-    }
+// Modals
+function showModal(id){$(id).style.display='flex';setTimeout(()=>$(id).querySelector('.modal').classList.add('show'),10)}
+function hideModal(id){$(id).querySelector('.modal').classList.remove('show');setTimeout(()=>$(id).style.display='none',250)}
 
-    /* ======= Init ======= */
-    document.addEventListener('DOMContentLoaded', ()=> {
-      // defaults
-      $('attDate').value = nowDateISO();
-      $('attStart').value = '09:00';
-      $('attEnd').value = '21:00';
+// Add Worker Modal
+$('btnAddWorker').onclick=()=>showModal('modalWorker');
+$('closeWorker').onclick=()=>hideModal('modalWorker');
+$('saveWorker').onclick=()=>{
+  const name=$('wName').value.trim(),role=$('wRole').value.trim();
+  if(!name){toast('Name required');return;}
+  const arr=load(W_KEY);if(arr.some(w=>w.name.toLowerCase()===name.toLowerCase())){toast('Already exists');return;}
+  arr.push({id:Date.now(),name,role});save(W_KEY,arr);
+  $('wName').value='';$('wRole').value='';hideModal('modalWorker');toast('Worker registered')
+}
 
-      buildSwatches();
-      renderWorkers();
-      renderAttendance();
+// Add Attendance Modal
+$('btnAddAttendance').onclick=()=>{
+  showModal('modalAttendance');renderWorkerAttendanceList();
+}
+$('closeAttendance').onclick=()=>hideModal('modalAttendance');
 
-      // worker form
-      $('workerForm').addEventListener('submit', e=>{
-        e.preventDefault();
-        const name = $('wName').value.trim();
-        const role = $('wRole').value.trim();
-        if(!name) { toast('Naam required'); return; }
-        const arr = load(W_KEY);
-        // prevent duplicate name
-        if(arr.some(w => w.name.toLowerCase() === name.toLowerCase())){
-          toast('Ye naam pehle se registered hai'); $('wName').focus(); return;
-        }
-        arr.push({ id: Date.now(), name, role });
-        save(W_KEY, arr);
-        $('wName').value=''; $('wRole').value='';
-        renderWorkers();
-        toast('Worker added');
-      });
+// Render Worker list for attendance
+function renderWorkerAttendanceList(){
+  const arr=load(W_KEY);const container=$('workerListForAttendance');container.innerHTML='';
+  arr.forEach(w=>{
+    const div=document.createElement('div');div.className='worker-item';div.textContent=w.name+(w.role?' — '+w.role:'');
+    div.onclick=()=>selectWorkerAttendance(w);container.appendChild(div);
+  });
+}
 
-      $('clearWorkers').addEventListener('click', ()=> {
-        if(!confirm('Saare workers hata den? (Isse unki attendance bhi remove ho jayegi)')) return;
-        localStorage.removeItem(W_KEY);
-        // also remove attendance
-        const at = load(A_KEY).filter(a => false);
-        save(A_KEY, at);
-        renderWorkers(); renderAttendance();
-        toast('Workers cleared');
-      });
+// When worker selected -> show attendance card
+function selectWorkerAttendance(worker){
+  hideModal('modalAttendance');
+  $('attendanceCard').style.display='block';
+  $('selectedWorkerName').textContent=worker.name;
+  renderAttendance(worker.id);
+  // fill date default
+  $('attDate').value=new Date().toISOString().slice(0,10);
+}
 
-      // attendance form
-      $('attForm').addEventListener('submit', e=>{
-        e.preventDefault();
-        const wid = $('workerSelect').value;
-        if(!wid) { toast('Pehle worker select karein'); return; }
-        const workers = load(W_KEY);
-        const w = workers.find(x => String(x.id) === wid);
-        if(!w){ toast('Worker nahi mila'); return; }
+// Attendance Form
+$('attForm').onsubmit=e=>{
+  e.preventDefault();
+  const workerName=$('selectedWorkerName').textContent;
+  const worker = load(W_KEY).find(w=>w.name===workerName);
+  if(!worker){toast('Worker not found');return;}
+  const date=$('attDate').value,start=$('attStart').value,end=$('attEnd').value;
+  const arr=load(A_KEY);
+  arr.push({id:Date.now(),workerId:worker.id,date,start,end});
+  save(A_KEY,arr);toast('Attendance saved');renderAttendance(worker.id);
+}
+$('clearAtt').onclick=()=>{
+  $('attStart').value='09:00';$('attEnd').value='21:00';$('attFull').checked=false;
+}
+$('attFull').onchange=e=>{
+  if(e.target.checked){$('attStart').value='09:00';$('attEnd').value='21:00'}
+}
 
-        const date = $('attDate').value;
-        const start = $('attStart').value;
-        const end = $('attEnd').value;
-        if(!date || !start || !end){ toast('Date, start aur end chahiye'); return; }
-        // ensure valid times (end after start) ; if crosses midnight, accept negative? we'll show zero
-        const st = timeToMin(start), en = timeToMin(end);
-        if(en <= st){ if(!confirm('End time start se chhota/berabar hai — phir bhi save karein?')) return; }
+// Render attendance for selected worker
+function renderAttendance(workerId){
+  const arr=load(A_KEY).filter(a=>a.workerId===workerId).sort((a,b)=>b.id-a.id);
+  const container=$('workerAttendanceList');container.innerHTML='';
+  if(!arr.length){container.innerHTML='<p class="muted">No attendance yet.</p>';return;}
+  const table=document.createElement('table');
+  table.innerHTML='<thead><tr><th>Date</th><th>Start</th><th>End</th><th>Hrs</th></tr></thead>';
+  const tbody=document.createElement('tbody');
+  arr.forEach(a=>{
+    const mins=Math.max(0,(a.end.split(':')[0]*60+parseInt(a.end.split(':')[1]))-(a.start.split(':')[0]*60+parseInt(a.start.split(':')[1])));
+    const row = document.createElement('tr');
+    const hours = Math.floor(mins/60);
+    const minutes = mins % 60;
+    const hhmm = `${hours}:${minutes.toString().padStart(2,'0')}`;
+    let chipClass = mins >= 12*60 ? 'ok' : (mins >= 6*60 ? 'warn' : 'danger');
+    row.innerHTML = `<td>${a.date}</td><td>${a.start}</td><td>${a.end}</td><td><span class="chip ${chipClass}">${hhmm}</span></td>`;
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
 
-        const arr = load(A_KEY);
-        // check if same worker + date already exists -> ask to overwrite
-        const existing = arr.find(a => a.workerId === w.id && a.date === date);
-        if(existing){
-          if(!confirm(`Attendance for ${w.name} on ${date} already exists. Overwrite?`)) return;
-          // replace
-          const newArr = arr.map(a => (a.workerId === w.id && a.date === date) ? { ...a, start, end, savedAt: Date.now() } : a);
-          save(A_KEY, newArr);
-          renderAttendance();
-          toast('Attendance updated');
-          clearAttForm();
-          return;
-        }
-
-        arr.push({ id: Date.now(), workerId: w.id, name: w.name, role: w.role, date, start, end, savedAt: Date.now() });
-        save(A_KEY, arr);
-        renderAttendance();
-        clearAttForm();
-        toast('Attendance saved');
-      });
-
-      $('clearAtt').addEventListener('click', ()=> { clearAttForm(); toast('Form cleared'); });
-
-      $('attFull').addEventListener('change', e => { if(e.target.checked){ $('attStart').value='09:00'; $('attEnd').value='21:00' } });
-
-      // import search/export/print
-      $('search').addEventListener('input', e => renderAttendance(e.target.value.trim().toLowerCase()) );
-      $('printTable').addEventListener('click', ()=> window.print());
-
-      $('exportCsv').addEventListener('click', ()=> {
-        const rows = load(A_KEY).map(it => {
-          const mins = Math.max(0, timeToMin(it.end) - timeToMin(it.start));
-          return [it.name, it.role||'', it.date, it.start, it.end, minToHH(mins)];
-        });
-        if(!rows.length){ toast('Koi attendance record nahi'); return; }
-        const csvArr = ['Name,Role,Date,Start,End,Hours', ...rows.map(r => r.map(c => `"${String(c).replaceAll('"','""')}"`).join(','))];
-        const blob = new Blob([csvArr.join('\n')], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `attendance_${nowDateISO()}.csv`; a.click(); URL.revokeObjectURL(url);
-        toast('CSV exported');
-      });
-    });
-
-    /* ======= Render workers ======= */
-    function renderWorkers(){
-      const tbody = document.querySelector('#workersTable tbody');
-      const sel = $('workerSelect');
-      tbody.innerHTML = '';
-      sel.innerHTML = '<option value="">— Select worker —</option>';
-      const arr = load(W_KEY);
-
-      arr.forEach(w => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${esc(w.name)}</td><td>${esc(w.role||'')}</td><td><button class="btn btn-ghost small" data-id="${w.id}" onclick="deleteWorker(${w.id})">Delete</button></td>`;
-        tbody.appendChild(tr);
-        const opt = document.createElement('option'); opt.value = w.id; opt.textContent = w.name + (w.role? ' — '+w.role:'');
-        sel.appendChild(opt);
-      });
-
-      $('totalWorkers').textContent = arr.length;
-      // when select changes, set role
-      sel.onchange = () => {
-        const id = sel.value; const found = arr.find(x=>String(x.id)===id);
-        $('attRole').value = found ? found.role : '';
-      };
-    }
-
-    function deleteWorker(id){
-      if(!confirm('Kya aap sure hain? Isse worker aur uski attendance remove ho jayegi.')) return;
-      const arr = load(W_KEY).filter(w => w.id !== id);
-      save(W_KEY, arr);
-      // remove attendance for that worker
-      const att = load(A_KEY).filter(a => a.workerId !== id);
-      save(A_KEY, att);
-      renderWorkers();
-      renderAttendance();
-      toast('Worker deleted');
-    }
-
-    /* ======= Render attendance ======= */
-    function renderAttendance(filter=''){
-      const tbody = document.querySelector('#attTable tbody');
-      tbody.innerHTML = '';
-      const arr = load(A_KEY).sort((a,b)=>b.id-a.id); // newest first
-      let totalMin = 0; const today = nowDateISO(); let todayCount = 0;
-      arr.filter(it => {
-        if(!filter) return true;
-        return it.name.toLowerCase().includes(filter) || it.date.includes(filter) || (it.role||'').toLowerCase().includes(filter);
-      }).forEach(it => {
-        const mins = Math.max(0, timeToMin(it.end) - timeToMin(it.start));
-        totalMin += mins; if(it.date === today) todayCount++;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${esc(it.name)}</td><td>${esc(it.role||'')}</td><td>${it.date}</td><td>${it.start}</td><td>${it.end}</td><td><span class="chip ${mins>=12*60? 'good':''}">${minToHH(mins)}</span></td>
-          <td>
-            <button class="btn btn-ghost small" onclick="editAtt(${it.id})">Edit</button>
-            <button class="btn btn-ghost small" onclick="delAtt(${it.id})">Delete</button>
-          </td>`;
-        tbody.appendChild(tr);
-      });
-
-      $('attCount').textContent = arr.length;
-      $('attToday').textContent = todayCount;
-      $('sumHours').textContent = (totalMin/60).toFixed(2) + ' hrs';
-    }
-
-    function delAtt(id){
-      if(!confirm('Delete this attendance?')) return;
-      const arr = load(A_KEY).filter(a => a.id !== id);
-      save(A_KEY, arr);
-      renderAttendance();
-      toast('Attendance deleted');
-    }
-
-    function editAtt(id){
-      const arr = load(A_KEY);
-      const it = arr.find(a => a.id === id);
-      if(!it) { toast('Record not found'); return; }
-      // fill form and remove the old record (we'll save on submit)
-      $('workerSelect').value = it.workerId;
-      $('attRole').value = it.role;
-      $('attDate').value = it.date;
-      $('attStart').value = it.start;
-      $('attEnd').value = it.end;
-      // remove original
-      const newArr = arr.filter(a => a.id !== id);
-      save(A_KEY, newArr);
-      renderAttendance();
-      toast('Edit mode: change values & Save');
-    }
-
-    function clearAttForm(){
-      $('workerSelect').value = '';
-      $('attRole').value = '';
-      $('attStart').value = '09:00';
-      $('attEnd').value = '21:00';
-      $('attFull').checked = false;
-      $('attDate').value = nowDateISO();
-    }
-
-    function esc(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-
-    /* expose delete/edit to inline HTML event handlers */
-    window.deleteWorker = deleteWorker;
-    window.delAtt = delAtt;
-    window.editAtt = editAtt;
-
-  </script>
+// Initial load: hide attendance card
+$('attendanceCard').style.display='none';
+</script>
 </body>
 </html>
